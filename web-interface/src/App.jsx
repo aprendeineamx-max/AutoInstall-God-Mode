@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { Terminal, Settings, RefreshCw, Box, Play, AlertTriangle, Monitor } from 'lucide-react'
 import { io } from 'socket.io-client';
 import FileExplorer from './components/FileExplorer';
+import StacksMarketplace from './components/StacksMarketplace';
 
 // AGENT URL - In production this should be dynamic or configurable
 const AGENT_API = 'http://localhost:3000';
@@ -212,6 +213,11 @@ function App() {
                         <h2 className="text-xl font-bold text-white">God Mode Explorer</h2>
                     </div>
                     <FileExplorer />
+                </div>
+
+                {/* NEURAL STACKS MARKETPLACE */}
+                <div className="col-span-1 lg:col-span-3 mb-6 bg-slate-900 rounded-2xl overflow-hidden border border-slate-800 shadow-2xl">
+                    <StacksMarketplace />
                 </div>
 
                 {/* Script Cards */}

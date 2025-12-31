@@ -1,0 +1,20 @@
+{
+  "managers": {
+    "winget": {
+      "installed": true,
+      "status": "healthy"
+    },
+    "choco": {
+      "installed": true,
+      "status": "healthy"
+    },
+    "scoop": {
+      "installed": true,
+      "status": "healthy"
+    },
+    "npm": {
+      "installed": true,
+      "status": "healthy"
+    }
+  }
+}

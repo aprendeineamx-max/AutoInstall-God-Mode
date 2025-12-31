@@ -9,6 +9,7 @@ const http = require('http');
 const { Server } = require("socket.io");
 const logger = require('./logger');
 const profiler = require('./profiler');
+const smartInstaller = require('./smartInstaller');
 
 const app = express();
 const server = http.createServer(app);
@@ -86,37 +87,9 @@ app.get('/scripts', (req, res) => {
     }
 });
 
-// 3. Ejecutar Script
-app.post('/execute', (req, res) => {
+// 2. Ejecutar Script (Smart Install)
+app.post('/execute', async (req, res) => {
     const { scriptId, envVars } = req.body;
-
-    if (!scriptId) {
-        return res.status(400).json({ error: "Falta scriptId" });
-    }
-
-    const scriptPathAbs = path.join(SCRIPTS_DIR, scriptId, 'install.bat');
-
-    if (!fs.existsSync(scriptPathAbs)) {
-        return res.status(404).json({ error: "Script no encontrado" });
-    }
-
-    logger.info(`[EXEC] Solicitud de ejecucion: ${scriptId}`);
-
-    // Crear un entorno personalizado combinando el actual con las variables recibidas
-    const customEnv = { ...process.env, ...envVars };
-
-    // Ejecutar el script
-    // Usamos spawn para "disparar y olvidar" o streaming, pero para simpleza aqui ejecutaremos
-    // abriendo una nueva ventana de consola para que el usuario vea el progreso.
-    // "start cmd /c ..." abre ventana nueva.
-
-    // Preparar comando para inyectar variables (un poco hacky en batch, mejor pasarlas al environment del proceso)
-    // Pero 'start' lanza un proceso separado.
-    // La estrategia mas robusta para este caso de uso "Visual" es escribir un wrapper temporal.
-
-    const wrapperPath = path.join(__dirname, 'temp_wrapper.bat');
-    let wrapperContent = '@echo off\n';
-
     // Inyectar vars
     if (envVars) {
         for (const [key, val] of Object.entries(envVars)) {

@@ -124,9 +124,24 @@ app.post('/execute', async (req, res) => {
     res.json({ success: true, message: "Instalacion iniciada en ventana emergente" });
 });
 
+// 3. Endpoint "Dry Run" para testing (Stress Test Suite)
+app.post('/resolve', async (req, res) => {
+    const { scriptId } = req.body;
+    const scriptPath = path.join(__dirname, '..', 'scripts', scriptId, 'install.bat');
+    try {
+        const diagnosis = await smartInstaller.resolveInstallCommand(scriptId, scriptPath);
+        res.json(diagnosis);
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+});
+
 const os = require('os');
 
-server.listen(PORT, () => {
+// Start Server
+const PORT_NUM = process.env.PORT || PORT;
+server.listen(PORT_NUM, () => {
+    logger.info(`Agente escuchando en puerto ${PORT_NUM}`);
     logger.info(`=========================================`);
     logger.info(`   AGENTE DE INSTALACION ACTIVO (Con Logs en Vivo)`);
     logger.info(`=========================================`);

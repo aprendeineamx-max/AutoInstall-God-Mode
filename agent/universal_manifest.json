@@ -1,0 +1,49 @@
+{
+    "docker": {
+        "name": "Docker Desktop",
+        "description": "Containerization platform",
+        "requirements": {
+            "minRamGB": 4,
+            "needsVirtualization": true,
+            "needsHyperV": true
+        },
+        "sources": {
+            "winget": "Docker.DockerDesktop",
+            "choco": "docker-desktop",
+            "scoop": "docker"
+        }
+    },
+    "vscode": {
+        "name": "Visual Studio Code",
+        "description": "Code Editor",
+        "sources": {
+            "winget": "Microsoft.VisualStudioCode",
+            "choco": "vscode",
+            "scoop": "vscode"
+        }
+    },
+    "nodejs": {
+        "name": "Node.js (LTS)",
+        "sources": {
+            "winget": "OpenJS.NodeJS.LTS",
+            "choco": "nodejs-lts",
+            "scoop": "nodejs-lts"
+        }
+    },
+    "git": {
+        "name": "Git",
+        "sources": {
+            "winget": "Git.Git",
+            "choco": "git",
+            "scoop": "git"
+        }
+    },
+    "chrome": {
+        "name": "Google Chrome",
+        "sources": {
+            "winget": "Google.Chrome",
+            "choco": "googlechrome",
+            "scoop": "googlechrome"
+        }
+    }
+}

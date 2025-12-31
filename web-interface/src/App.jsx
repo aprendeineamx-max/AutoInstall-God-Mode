@@ -6,16 +6,19 @@ import { io } from 'socket.io-client';
 const AGENT_API = 'http://localhost:3000';
 
 function App() {
+    /* eslint-disable react/prop-types */
     const [status, setStatus] = useState(null);
     const [scripts, setScripts] = useState([]);
     const [loading, setLoading] = useState(false);
     const [installing, setInstalling] = useState(null);
     const [logs, setLogs] = useState([]);
     const logsEndRef = useRef(null);
+    const [capabilities, setCapabilities] = useState(null);
 
     useEffect(() => {
         checkStatus();
         fetchScripts();
+        fetchCapabilities(); // New
 
         // Socket.IO Connection
         const socket = io(AGENT_API);
@@ -57,6 +60,16 @@ function App() {
         }
     };
 
+    const fetchCapabilities = async () => {
+        try {
+            const res = await fetch(`${AGENT_API}/capabilities`);
+            const data = await res.json();
+            setCapabilities(data);
+        } catch (e) {
+            console.error("Failed to fetch capabilities");
+        }
+    };
+
     const handleInstall = async (scriptId) => {
         if (!status) return alert("Agent is offline!");
 
@@ -81,6 +94,15 @@ function App() {
         }
     };
 
+    // Helper to format bytes
+    const formatBytes = (bytes) => {
+        if (bytes === 0) return '0 B';
+        const k = 1024;
+        const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    };
+
     return (
         <div className="min-h-screen bg-slate-950 p-8 font-sans">
             <header className="max-w-6xl mx-auto mb-12 flex justify-between items-center bg-slate-900/50 p-6 rounded-2xl border border-slate-800 backdrop-blur-xl">
@@ -99,28 +121,59 @@ function App() {
                         <div className={`w-2 h-2 rounded-full ${status?.online ? 'bg-green-500 animate-pulse' : 'bg-red-500'}`} />
                         <span className="text-sm font-medium">{status?.online ? 'AGENT ONLINE' : 'DISCONNECTED'}</span>
                     </div>
-                    <button onClick={() => { checkStatus(); fetchScripts(); }} className="p-2 text-slate-400 hover:text-white transition-colors">
+                    <button onClick={() => { checkStatus(); fetchScripts(); fetchCapabilities(); }} className="p-2 text-slate-400 hover:text-white transition-colors">
                         <RefreshCw className="w-5 h-5" />
                     </button>
                 </div>
             </header>
 
-            <main className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <main className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-                {/* System Stats Card (Mockup) */}
-                <div className="col-span-1 lg:col-span-3 mb-4">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div className="bg-slate-900/50 border border-slate-800 p-6 rounded-2xl">
-                            <h3 className="text-slate-400 text-sm mb-2">Target Machine</h3>
-                            <p className="text-2xl font-mono text-white">{status?.hostname || '---'}</p>
+                {/* Deep System Stats Card */}
+                <div className="col-span-1 md:col-span-2 lg:col-span-3 mb-4">
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        {/* CPU */}
+                        <div className="bg-slate-900/50 border border-slate-800 p-6 rounded-2xl relative overflow-hidden group">
+                            <div className="absolute inset-0 bg-blue-500/5 group-hover:bg-blue-500/10 transition-colors" />
+                            <h3 className="text-blue-400 text-xs uppercase font-bold tracking-wider mb-2">Processing Unit</h3>
+                            <p className="text-lg font-bold text-white truncate">{capabilities?.cpu?.brand || 'Scanning...'}</p>
+                            <div className="flex justify-between mt-2 text-slate-400 text-xs font-mono">
+                                <span>{capabilities?.cpu?.cores} Cores</span>
+                                <span>{capabilities?.cpu?.speed} GHz</span>
+                            </div>
                         </div>
-                        <div className="bg-slate-900/50 border border-slate-800 p-6 rounded-2xl">
-                            <h3 className="text-slate-400 text-sm mb-2">Network IP</h3>
-                            <p className="text-2xl font-mono text-white">{status?.ip || '---'}</p>
+
+                        {/* MEMORY */}
+                        <div className="bg-slate-900/50 border border-slate-800 p-6 rounded-2xl relative overflow-hidden group">
+                            <div className="absolute inset-0 bg-purple-500/5 group-hover:bg-purple-500/10 transition-colors" />
+                            <h3 className="text-purple-400 text-xs uppercase font-bold tracking-wider mb-2">Memory</h3>
+                            <p className="text-lg font-bold text-white">
+                                {capabilities ? `${formatBytes(capabilities.memory.active)} / ${formatBytes(capabilities.memory.total)}` : 'Scanning...'}
+                            </p>
+                            <div className="w-full bg-slate-800 h-1 mt-3 rounded-full overflow-hidden">
+                                <div className="bg-purple-500 h-full transition-all duration-1000" style={{ width: capabilities ? `${(capabilities.memory.active / capabilities.memory.total) * 100}%` : '0%' }} />
+                            </div>
                         </div>
-                        <div className="bg-slate-900/50 border border-slate-800 p-6 rounded-2xl">
-                            <h3 className="text-slate-400 text-sm mb-2">Platform</h3>
-                            <p className="text-2xl font-mono text-white capitalize">{status?.platform || '---'}</p>
+
+                        {/* OS & DISK */}
+                        <div className="bg-slate-900/50 border border-slate-800 p-6 rounded-2xl relative overflow-hidden group">
+                            <div className="absolute inset-0 bg-emerald-500/5 group-hover:bg-emerald-500/10 transition-colors" />
+                            <h3 className="text-emerald-400 text-xs uppercase font-bold tracking-wider mb-2">Operating System</h3>
+                            <p className="text-lg font-bold text-white truncate">{capabilities?.os?.distro || 'Scanning...'}</p>
+                            <p className="text-slate-400 text-xs mt-1">Disk: {capabilities ? `${capabilities.storage.percent.toFixed(0)}% Used` : '...'}</p>
+                        </div>
+
+                        {/* GPU & FEATURES */}
+                        <div className="bg-slate-900/50 border border-slate-800 p-6 rounded-2xl relative overflow-hidden group">
+                            <div className="absolute inset-0 bg-orange-500/5 group-hover:bg-orange-500/10 transition-colors" />
+                            <h3 className="text-orange-400 text-xs uppercase font-bold tracking-wider mb-2">Graphics & AI</h3>
+                            <p className="text-lg font-bold text-white truncate">
+                                {capabilities?.gpu?.[0]?.model || 'No GPU Detected'}
+                            </p>
+                            <div className="flex gap-2 mt-2">
+                                {capabilities?.features?.hyperv && <span className="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 text-[10px] border border-slate-700">HYPER-V</span>}
+                                {capabilities?.features?.docker && <span className="px-1.5 py-0.5 rounded bg-blue-900/30 text-blue-300 text-[10px] border border-blue-800">DOCKER</span>}
+                            </div>
                         </div>
                     </div>
                 </div>

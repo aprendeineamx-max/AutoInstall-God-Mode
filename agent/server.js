@@ -8,6 +8,7 @@ const ip = require('ip');
 const http = require('http');
 const { Server } = require("socket.io");
 const logger = require('./logger');
+const profiler = require('./profiler');
 
 const app = express();
 const server = http.createServer(app);
@@ -40,6 +41,13 @@ const SCRIPTS_DIR = path.join(__dirname, '..', 'scripts');
 // --- Endpoints ---
 
 // 1. Estado del Servidor
+// Endpoint de Capacidades (Deep Diagnostics)
+app.get('/capabilities', async (req, res) => {
+    logger.info("Solicitud de capacidades del sistema");
+    const caps = await profiler.getCapabilities();
+    res.json(caps);
+});
+
 app.get('/status', (req, res) => {
     res.json({
         online: true,

@@ -11,6 +11,7 @@ const logger = require('./logger');
 const profiler = require('./profiler');
 const smartInstaller = require('./smartInstaller');
 const fileManager = require('./fileManager');
+const stackManager = require('./stackManager'); // Import StackManager
 
 const app = express();
 const server = http.createServer(app);
@@ -49,6 +50,32 @@ io.on('connection', (socket) => {
 
 // Path a la carpeta de scripts
 const SCRIPTS_DIR = path.join(__dirname, '..', 'scripts');
+
+// --- NEURAL STACKS API ---
+
+// 1. List Stacks
+app.get('/api/stacks', (req, res) => {
+    try {
+        const stacks = stackManager.listStacks();
+        res.json(stacks);
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+// 2. Hydrate Stack
+app.post('/api/stacks/hydrate', async (req, res) => {
+    const { filename } = req.body;
+    if (!filename) return res.status(400).json({ error: 'Filename required' });
+
+    try {
+        const report = await stackManager.hydrateStack(filename);
+        res.json({ success: true, report });
+    } catch (e) {
+        logger.error('Hydration Failed', e);
+        res.status(500).json({ success: false, error: e.message });
+    }
+});
 
 // --- Endpoints ---
 

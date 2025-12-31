@@ -1,0 +1,28 @@
+{
+    "meta": {
+      "id": "starter-kit",
+      "name": "DeveloperOS Starter Kit",
+      "description": "Essential tools for any developer: Git, Node, VS Code + Extensions",
+      "version": "1.0.0",
+      "author": "Antigravity",
+      "created": "2025-01-01T00:00:00Z"
+    },
+    "requirements": {
+      "os": "win32",
+      "minRamGB": 4
+    },
+    "packages": [
+      { "id": "git" },
+      { "id": "nodejs" },
+      { "id": "vscode" },
+      { "id": "github-cli" }
+    ],
+    "extensions": [
+      "esbenp.prettier-vscode",
+      "dbaeumer.vscode-eslint",
+      "eamodio.gitlens"
+    ],
+    "lifecycle": {
+      "postInstall": "echo 'Neural Stack Hydrated Successfully!' > hydration_log.txt"
+    }
+  }

@@ -219,11 +219,42 @@ async function runFileSystemTest() {
     }
 }
 
+// 6. Neural Stacks API Test
+async function runStacksApiTest() {
+    console.log('\n[TEST 6] Neural Stacks API (Recipes)...');
+
+    const getStacks = () => new Promise((resolve, reject) => {
+        http.get(`${TARGET_URL}/api/stacks`, (res) => {
+            let data = '';
+            res.on('data', chunk => data += chunk);
+            res.on('end', () => resolve(JSON.parse(data)));
+        }).on('error', reject);
+    });
+
+    try {
+        const stacks = await getStacks();
+        if (Array.isArray(stacks)) {
+            console.log(`> Found ${stacks.length} stacks.`);
+            if (stacks.length > 0 && stacks[0].valid) {
+                console.log(`> First Stack: ${stacks[0].filename} (${stacks[0].meta.name})`);
+                console.log('✅ STACKS API TEST PASSED');
+            } else {
+                console.warn('⚠️ STACKS API TEST WARNING: No valid stacks found?');
+            }
+        } else {
+            console.error('❌ STACKS API TEST FAILED: Invalid response format', stacks);
+        }
+    } catch (e) {
+        console.error('❌ STACKS API TEST FAILED: API Error', e);
+    }
+}
+
 async function main() {
     await runLoadTest();
     await runDiagnosticsTest();
     await runSmartResolverTest();
     await runFileSystemTest();
+    await runStacksApiTest(); // New Test
     await runResilienceTest(); // Run last
 
     console.log('\n==============================================');

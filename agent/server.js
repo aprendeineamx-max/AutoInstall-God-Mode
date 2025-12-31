@@ -22,8 +22,18 @@ const io = new Server(server, {
 
 const PORT = 3000;
 
-// Inicializar Logger con Websockets
+// Inicializar Logger
 logger.init(io);
+
+// Inicializar Smart Installer (Autopoiesis)
+smartInstaller.loadMemory();
+// No bloqueamos el arranque, lo hacemos en background
+smartInstaller.provisionPackageManagers().then(() => {
+    logger.info("Ciclo de aprovisionamiento inicial completado.");
+});
+
+// Servir archivos estáticos del frontend (Build de producción)
+app.use(express.static(path.join(__dirname, '../web-interface/dist')));
 
 // Middleware
 app.use(cors());

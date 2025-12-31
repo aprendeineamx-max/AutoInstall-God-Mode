@@ -5,13 +5,34 @@ const { exec, spawn } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 const ip = require('ip');
+const http = require('http');
+const { Server } = require("socket.io");
+const logger = require('./logger');
 
 const app = express();
+const server = http.createServer(app);
+const io = new Server(server, {
+    cors: {
+        origin: "*", // Permitir acceso desde el frontend
+        methods: ["GET", "POST"]
+    }
+});
+
 const PORT = 3000;
+
+// Inicializar Logger con Websockets
+logger.init(io);
 
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
+
+io.on('connection', (socket) => {
+    logger.info(`Nuevo cliente conectado: ${socket.id}`);
+    socket.on('disconnect', () => {
+        logger.info(`Cliente desconectado: ${socket.id}`);
+    });
+});
 
 // Path a la carpeta de scripts
 const SCRIPTS_DIR = path.join(__dirname, '..', 'scripts');
@@ -41,7 +62,7 @@ app.get('/scripts', (req, res) => {
             const modPath = path.join(SCRIPTS_DIR, mod);
             const files = fs.readdirSync(modPath);
             const installScript = files.find(f => f.toLowerCase() === 'install.bat' || f.toLowerCase() === 'install.ps1');
-            
+
             return {
                 id: mod,
                 name: mod.charAt(0).toUpperCase() + mod.slice(1), // Capitalize
@@ -52,7 +73,7 @@ app.get('/scripts', (req, res) => {
 
         res.json(scriptList);
     } catch (error) {
-        console.error("Error leyendo scripts:", error);
+        logger.error("Error leyendo scripts:", error);
         res.status(500).json({ error: error.message });
     }
 });
@@ -71,7 +92,7 @@ app.post('/execute', (req, res) => {
         return res.status(404).json({ error: "Script no encontrado" });
     }
 
-    console.log(`[EXEC] Solicitud de ejecucion: ${scriptId}`);
+    logger.info(`[EXEC] Solicitud de ejecucion: ${scriptId}`);
 
     // Crear un entorno personalizado combinando el actual con las variables recibidas
     const customEnv = { ...process.env, ...envVars };
@@ -80,21 +101,21 @@ app.post('/execute', (req, res) => {
     // Usamos spawn para "disparar y olvidar" o streaming, pero para simpleza aqui ejecutaremos
     // abriendo una nueva ventana de consola para que el usuario vea el progreso.
     // "start cmd /c ..." abre ventana nueva.
-    
+
     // Preparar comando para inyectar variables (un poco hacky en batch, mejor pasarlas al environment del proceso)
     // Pero 'start' lanza un proceso separado.
     // La estrategia mas robusta para este caso de uso "Visual" es escribir un wrapper temporal.
-    
+
     const wrapperPath = path.join(__dirname, 'temp_wrapper.bat');
     let wrapperContent = '@echo off\n';
-    
+
     // Inyectar vars
     if (envVars) {
         for (const [key, val] of Object.entries(envVars)) {
             wrapperContent += `set "${key}=${val}"\n`;
         }
     }
-    
+
     wrapperContent += `cd /d "${path.dirname(scriptPathAbs)}"\n`;
     wrapperContent += `call "${path.basename(scriptPathAbs)}"\n`;
     wrapperContent += 'pause\n'; // Pausa al final para ver resultado
@@ -114,11 +135,11 @@ app.post('/execute', (req, res) => {
 
 const os = require('os');
 
-app.listen(PORT, () => {
-    console.log(`=========================================`);
-    console.log(`   AGENTE DE INSTALACION ACTIVO`);
-    console.log(`=========================================`);
-    console.log(`Accede a la interfaz web localmente o via:`);
-    console.log(`http://${ip.address()}:${PORT}`);
-    console.log(`=========================================`);
+server.listen(PORT, () => {
+    logger.info(`=========================================`);
+    logger.info(`   AGENTE DE INSTALACION ACTIVO (Con Logs en Vivo)`);
+    logger.info(`=========================================`);
+    logger.info(`Accede a la interfaz web localmente o via:`);
+    logger.info(`http://${ip.address()}:${PORT}`);
+    logger.info(`=========================================`);
 });

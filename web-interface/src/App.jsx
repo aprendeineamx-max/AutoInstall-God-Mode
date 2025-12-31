@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react'
-import { Terminal, Settings, RefreshCw, Box, Play, AlertTriangle } from 'lucide-react'
+import { useState, useEffect, useRef } from 'react'
+import { Terminal, Settings, RefreshCw, Box, Play, AlertTriangle, Monitor } from 'lucide-react'
+import { io } from 'socket.io-client';
 
 // AGENT URL - In production this should be dynamic or configurable
 const AGENT_API = 'http://localhost:3000';
@@ -9,11 +10,31 @@ function App() {
     const [scripts, setScripts] = useState([]);
     const [loading, setLoading] = useState(false);
     const [installing, setInstalling] = useState(null);
+    const [logs, setLogs] = useState([]);
+    const logsEndRef = useRef(null);
 
     useEffect(() => {
         checkStatus();
         fetchScripts();
+
+        // Socket.IO Connection
+        const socket = io(AGENT_API);
+
+        socket.on('connect', () => {
+            console.log('Connected to Agent WS');
+        });
+
+        socket.on('log', (log) => {
+            setLogs(prev => [...prev.slice(-99), log]); // Keep last 100 logs
+        });
+
+        return () => socket.disconnect();
     }, []);
+
+    // Auto-scroll logs
+    useEffect(() => {
+        logsEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, [logs]);
 
     const checkStatus = async () => {
         try {
@@ -51,7 +72,8 @@ function App() {
                 body: JSON.stringify({ scriptId, envVars })
             });
             const data = await res.json();
-            alert(`Output: ${data.message || data.error}`);
+            // Alert is no longer needed as logs will show the action
+            // alert(`Output: ${data.message || data.error}`);
         } catch (e) {
             alert("Error starting installation");
         } finally {
@@ -83,10 +105,10 @@ function App() {
                 </div>
             </header>
 
-            <main className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <main className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
 
                 {/* System Stats Card (Mockup) */}
-                <div className="col-span-1 md:col-span-2 lg:col-span-3 mb-4">
+                <div className="col-span-1 lg:col-span-3 mb-4">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div className="bg-slate-900/50 border border-slate-800 p-6 rounded-2xl">
                             <h3 className="text-slate-400 text-sm mb-2">Target Machine</h3>
@@ -100,6 +122,32 @@ function App() {
                             <h3 className="text-slate-400 text-sm mb-2">Platform</h3>
                             <p className="text-2xl font-mono text-white capitalize">{status?.platform || '---'}</p>
                         </div>
+                    </div>
+                </div>
+
+                {/* LOG TERMINAL - NEW */}
+                <div className="col-span-1 lg:col-span-3 bg-black border border-slate-800 rounded-2xl overflow-hidden shadow-2xl font-mono text-sm mb-6">
+                    <div className="bg-slate-900 px-4 py-2 border-b border-slate-800 flex items-center gap-2">
+                        <Terminal className="w-4 h-4 text-slate-400" />
+                        <span className="text-slate-400 font-medium">System Matrix Log</span>
+                    </div>
+                    <div className="h-64 overflow-y-auto p-4 space-y-1">
+                        {logs.length === 0 && <span className="text-slate-600 italic">Waiting for telemetry...</span>}
+                        {logs.map((log, i) => (
+                            <div key={i} className="flex gap-3">
+                                <span className="text-slate-600 shrink-0">[{new Date(log.timestamp).toLocaleTimeString()}]</span>
+                                <span className={`
+                            ${log.level === 'error' ? 'text-red-500' :
+                                        log.level === 'warn' ? 'text-yellow-500' : 'text-green-400'}
+                        `}>
+                                    {log.message}
+                                </span>
+                                {log.meta && Object.keys(log.meta).length > 0 && (
+                                    <span className="text-slate-500 text-xs">{JSON.stringify(log.meta)}</span>
+                                )}
+                            </div>
+                        ))}
+                        <div ref={logsEndRef} />
                     </div>
                 </div>
 

@@ -32,3 +32,6 @@ Definir: ¿Qué feature imposible haremos hoy? (ej. Instalar Docker y levantar u
 Arquitectura: Diseñar cómo el Agente orquesta esto.
 Implementar: Código robusto con logs detallados.
 Verificar: Probar casos de borde (¿Qué pasa si no hay internet?).
+
+
+Siempre Haz Commit & push en cada iteracion.

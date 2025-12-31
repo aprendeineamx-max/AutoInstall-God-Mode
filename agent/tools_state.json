@@ -5,12 +5,12 @@
       "status": "healthy"
     },
     "choco": {
-      "installed": true,
-      "status": "healthy"
+      "installed": false,
+      "status": "broken"
     },
     "scoop": {
-      "installed": true,
-      "status": "healthy"
+      "installed": false,
+      "status": "broken"
     },
     "npm": {
       "installed": true,

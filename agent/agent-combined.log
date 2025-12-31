@@ -16,3 +16,182 @@
 {"level":"info","message":"Accede a la interfaz web localmente o via:","timestamp":"2025-12-31T00:16:53.468Z"}
 {"level":"info","message":"http://216.238.95.228:3000","timestamp":"2025-12-31T00:16:53.479Z"}
 {"level":"info","message":"=========================================","timestamp":"2025-12-31T00:16:53.480Z"}
+{"level":"info","message":"=========================================","timestamp":"2025-12-31T01:00:00.034Z"}
+{"level":"info","message":"   AGENTE DE INSTALACION ACTIVO (Con Logs en Vivo)","timestamp":"2025-12-31T01:00:00.038Z"}
+{"level":"info","message":"=========================================","timestamp":"2025-12-31T01:00:00.038Z"}
+{"level":"info","message":"Accede a la interfaz web localmente o via:","timestamp":"2025-12-31T01:00:00.039Z"}
+{"level":"info","message":"http://216.238.95.228:3000","timestamp":"2025-12-31T01:00:00.044Z"}
+{"level":"info","message":"=========================================","timestamp":"2025-12-31T01:00:00.044Z"}
+{"level":"info","message":"Solicitud de capacidades del sistema","timestamp":"2025-12-31T01:00:04.646Z"}
+{"level":"info","message":"Iniciando escaneo hardware profundo...","timestamp":"2025-12-31T01:00:04.647Z"}
+{"level":"info","message":"Solicitud de capacidades del sistema","timestamp":"2025-12-31T01:00:24.868Z"}
+{"level":"info","message":"Iniciando escaneo hardware profundo...","timestamp":"2025-12-31T01:00:24.871Z"}
+{"level":"info","message":"=========================================","timestamp":"2025-12-31T01:04:08.001Z"}
+{"level":"info","message":"   AGENTE DE INSTALACION ACTIVO (Con Logs en Vivo)","timestamp":"2025-12-31T01:04:08.005Z"}
+{"level":"info","message":"=========================================","timestamp":"2025-12-31T01:04:08.006Z"}
+{"level":"info","message":"Accede a la interfaz web localmente o via:","timestamp":"2025-12-31T01:04:08.006Z"}
+{"level":"info","message":"http://216.238.95.228:3000","timestamp":"2025-12-31T01:04:08.012Z"}
+{"level":"info","message":"=========================================","timestamp":"2025-12-31T01:04:08.013Z"}
+{"level":"info","message":"Iniciando aprovisionamiento autopoiético de herramientas...","timestamp":"2025-12-31T01:10:59.167Z"}
+{"level":"info","message":"=========================================","timestamp":"2025-12-31T01:10:59.225Z"}
+{"level":"info","message":"   AGENTE DE INSTALACION ACTIVO (Con Logs en Vivo)","timestamp":"2025-12-31T01:10:59.225Z"}
+{"level":"info","message":"=========================================","timestamp":"2025-12-31T01:10:59.226Z"}
+{"level":"info","message":"Accede a la interfaz web localmente o via:","timestamp":"2025-12-31T01:10:59.226Z"}
+{"level":"info","message":"http://216.238.95.228:3000","timestamp":"2025-12-31T01:10:59.234Z"}
+{"level":"info","message":"=========================================","timestamp":"2025-12-31T01:10:59.235Z"}
+{"level":"info","message":"Detectado Chocolatey faltante. Intentando auto-instalación...","timestamp":"2025-12-31T01:10:59.515Z"}
+{"level":"info","message":"¡Chocolatey instalado y operativo!","timestamp":"2025-12-31T01:11:11.505Z"}
+{"level":"info","message":"Detectado Scoop faltante. Intentando auto-instalación...","timestamp":"2025-12-31T01:11:11.505Z"}
+{"level":"info","message":"¡Scoop instalado y operativo!","timestamp":"2025-12-31T01:11:12.367Z"}
+{"level":"info","message":"Ciclo de aprovisionamiento inicial completado.","timestamp":"2025-12-31T01:11:12.367Z"}
+{"level":"info","message":"Solicitud de capacidades del sistema","timestamp":"2025-12-31T01:19:58.158Z"}
+{"level":"info","message":"Iniciando escaneo hardware profundo...","timestamp":"2025-12-31T01:19:58.158Z"}
+{"level":"info","managers":{"choco":{"installed":true,"status":"healthy"},"npm":{"installed":true,"status":"healthy"},"scoop":{"installed":true,"status":"healthy"},"winget":{"installed":true,"status":"healthy"}},"message":"Memoria de herramientas cargada:","timestamp":"2025-12-31T01:20:08.730Z"}
+{"level":"info","message":"Iniciando aprovisionamiento autopoiético de herramientas...","timestamp":"2025-12-31T01:20:08.734Z"}
+{"level":"info","message":"=========================================","timestamp":"2025-12-31T01:20:08.785Z"}
+{"level":"info","message":"   AGENTE DE INSTALACION ACTIVO (Con Logs en Vivo)","timestamp":"2025-12-31T01:20:08.786Z"}
+{"level":"info","message":"=========================================","timestamp":"2025-12-31T01:20:08.786Z"}
+{"level":"info","message":"Accede a la interfaz web localmente o via:","timestamp":"2025-12-31T01:20:08.786Z"}
+{"level":"info","message":"http://216.238.95.228:3000","timestamp":"2025-12-31T01:20:08.792Z"}
+{"level":"info","message":"=========================================","timestamp":"2025-12-31T01:20:08.793Z"}
+{"level":"info","message":"Detectado Chocolatey faltante. Intentando auto-instalación...","timestamp":"2025-12-31T01:20:09.090Z"}
+{"level":"info","message":"¡Chocolatey instalado y operativo!","timestamp":"2025-12-31T01:20:10.020Z"}
+{"level":"info","message":"Detectado Scoop faltante. Intentando auto-instalación...","timestamp":"2025-12-31T01:20:10.021Z"}
+{"level":"info","message":"¡Scoop instalado y operativo!","timestamp":"2025-12-31T01:20:10.894Z"}
+{"level":"info","message":"Ciclo de aprovisionamiento inicial completado.","timestamp":"2025-12-31T01:20:10.895Z"}
+{"level":"info","message":"Solicitud de capacidades del sistema","timestamp":"2025-12-31T01:20:27.751Z"}
+{"level":"info","message":"Iniciando escaneo hardware profundo...","timestamp":"2025-12-31T01:20:27.752Z"}
+{"level":"info","managers":{"choco":{"installed":true,"status":"healthy"},"npm":{"installed":true,"status":"healthy"},"scoop":{"installed":true,"status":"healthy"},"winget":{"installed":true,"status":"healthy"}},"message":"Memoria de herramientas cargada:","timestamp":"2025-12-31T01:33:16.487Z"}
+{"level":"info","message":"Iniciando aprovisionamiento autopoiético de herramientas...","timestamp":"2025-12-31T01:33:16.491Z"}
+{"level":"info","message":"Agente escuchando en puerto 3000","timestamp":"2025-12-31T01:33:16.532Z"}
+{"level":"info","message":"=========================================","timestamp":"2025-12-31T01:33:16.533Z"}
+{"level":"info","message":"   AGENTE DE INSTALACION ACTIVO (Con Logs en Vivo)","timestamp":"2025-12-31T01:33:16.533Z"}
+{"level":"info","message":"=========================================","timestamp":"2025-12-31T01:33:16.534Z"}
+{"level":"info","message":"Accede a la interfaz web localmente o via:","timestamp":"2025-12-31T01:33:16.535Z"}
+{"level":"info","message":"http://216.238.95.228:3000","timestamp":"2025-12-31T01:33:16.541Z"}
+{"level":"info","message":"=========================================","timestamp":"2025-12-31T01:33:16.542Z"}
+{"level":"info","message":"Detectado Chocolatey faltante. Intentando auto-instalación...","timestamp":"2025-12-31T01:33:16.841Z"}
+{"level":"error","message":"Fallo al auto-instalar Chocolatey. Marcando como roto. '-' was specified with the -Command parameter; no other arguments to -Command are permitted.\r\n","stack":"Error: '-' was specified with the -Command parameter; no other arguments to -Command are permitted.\r\n\n    at C:\\Users\\Administrator\\Desktop\\AutoInstall Entorno completo de GitHub\\agent\\smartInstaller.js:100:40\n    at ChildProcess.exithandler (node:child_process:424:5)\n    at ChildProcess.emit (node:events:508:28)\n    at maybeClose (node:internal/child_process:1101:16)\n    at ChildProcess._handle.onexit (node:internal/child_process:305:5)","timestamp":"2025-12-31T01:33:18.508Z"}
+{"level":"info","message":"Detectado Scoop faltante. Intentando auto-instalación...","timestamp":"2025-12-31T01:33:18.508Z"}
+{"level":"error","message":"Fallo al auto-instalar Scoop. Marcando como roto. '-' was specified with the -Command parameter; no other arguments to -Command are permitted.\r\n","stack":"Error: '-' was specified with the -Command parameter; no other arguments to -Command are permitted.\r\n\n    at C:\\Users\\Administrator\\Desktop\\AutoInstall Entorno completo de GitHub\\agent\\smartInstaller.js:110:40\n    at ChildProcess.exithandler (node:child_process:424:5)\n    at ChildProcess.emit (node:events:508:28)\n    at maybeClose (node:internal/child_process:1101:16)\n    at ChildProcess._handle.onexit (node:internal/child_process:305:5)","timestamp":"2025-12-31T01:33:18.637Z"}
+{"level":"info","message":"Ciclo de aprovisionamiento inicial completado.","timestamp":"2025-12-31T01:33:18.639Z"}
+{"level":"info","managers":{"choco":{"installed":false,"status":"broken"},"npm":{"installed":true,"status":"healthy"},"scoop":{"installed":false,"status":"broken"},"winget":{"installed":true,"status":"healthy"}},"message":"Memoria de herramientas cargada:","timestamp":"2025-12-31T01:35:56.687Z"}
+{"level":"info","message":"Iniciando aprovisionamiento autopoiético de herramientas...","timestamp":"2025-12-31T01:35:56.691Z"}
+{"level":"info","message":"Agente escuchando en puerto 3000","timestamp":"2025-12-31T01:35:56.749Z"}
+{"level":"info","message":"=========================================","timestamp":"2025-12-31T01:35:56.750Z"}
+{"level":"info","message":"   AGENTE DE INSTALACION ACTIVO (Con Logs en Vivo)","timestamp":"2025-12-31T01:35:56.751Z"}
+{"level":"info","message":"=========================================","timestamp":"2025-12-31T01:35:56.751Z"}
+{"level":"info","message":"Accede a la interfaz web localmente o via:","timestamp":"2025-12-31T01:35:56.752Z"}
+{"level":"info","message":"http://216.238.95.228:3000","timestamp":"2025-12-31T01:35:56.761Z"}
+{"level":"info","message":"=========================================","timestamp":"2025-12-31T01:35:56.761Z"}
+{"level":"info","message":"Ciclo de aprovisionamiento inicial completado.","timestamp":"2025-12-31T01:35:57.120Z"}
+{"level":"info","message":"Solicitud de capacidades del sistema","timestamp":"2025-12-31T01:36:02.857Z"}
+{"level":"info","message":"Iniciando escaneo hardware profundo...","timestamp":"2025-12-31T01:36:02.857Z"}
+{"level":"info","managers":{"choco":{"installed":false,"status":"broken"},"npm":{"installed":true,"status":"healthy"},"scoop":{"installed":false,"status":"broken"},"winget":{"installed":true,"status":"healthy"}},"message":"Memoria de herramientas cargada:","timestamp":"2025-12-31T01:36:06.718Z"}
+{"level":"info","message":"Iniciando escaneo hardware profundo...","timestamp":"2025-12-31T01:36:06.719Z"}
+{"level":"info","message":"[SmartResolver] Fuente seleccionada para docker: winget ","timestamp":"2025-12-31T01:36:09.996Z"}
+{"level":"info","managers":{"choco":{"installed":false,"status":"broken"},"npm":{"installed":true,"status":"healthy"},"scoop":{"installed":false,"status":"broken"},"winget":{"installed":true,"status":"healthy"}},"message":"Memoria de herramientas cargada:","timestamp":"2025-12-31T01:36:39.641Z"}
+{"level":"info","message":"Iniciando aprovisionamiento autopoiético de herramientas...","timestamp":"2025-12-31T01:36:39.645Z"}
+{"level":"info","message":"Agente escuchando en puerto 3000","timestamp":"2025-12-31T01:36:39.697Z"}
+{"level":"info","message":"=========================================","timestamp":"2025-12-31T01:36:39.698Z"}
+{"level":"info","message":"   AGENTE DE INSTALACION ACTIVO (Con Logs en Vivo)","timestamp":"2025-12-31T01:36:39.698Z"}
+{"level":"info","message":"=========================================","timestamp":"2025-12-31T01:36:39.698Z"}
+{"level":"info","message":"Accede a la interfaz web localmente o via:","timestamp":"2025-12-31T01:36:39.699Z"}
+{"level":"info","message":"http://216.238.95.228:3000","timestamp":"2025-12-31T01:36:39.720Z"}
+{"level":"info","message":"=========================================","timestamp":"2025-12-31T01:36:39.720Z"}
+{"level":"info","message":"Ciclo de aprovisionamiento inicial completado.","timestamp":"2025-12-31T01:36:40.029Z"}
+{"level":"info","message":"Solicitud de capacidades del sistema","timestamp":"2025-12-31T01:36:46.624Z"}
+{"level":"info","message":"Iniciando escaneo hardware profundo...","timestamp":"2025-12-31T01:36:46.625Z"}
+{"level":"info","managers":{"choco":{"installed":false,"status":"broken"},"npm":{"installed":true,"status":"healthy"},"scoop":{"installed":false,"status":"broken"},"winget":{"installed":true,"status":"healthy"}},"message":"Memoria de herramientas cargada:","timestamp":"2025-12-31T01:36:50.872Z"}
+{"level":"info","message":"Iniciando escaneo hardware profundo...","timestamp":"2025-12-31T01:36:50.872Z"}
+{"level":"info","message":"[SmartResolver] Fuente seleccionada para docker: winget ","timestamp":"2025-12-31T01:36:54.028Z"}
+{"level":"info","managers":{"choco":{"installed":false,"status":"broken"},"npm":{"installed":true,"status":"healthy"},"scoop":{"installed":false,"status":"broken"},"winget":{"installed":true,"status":"healthy"}},"message":"Memoria de herramientas cargada:","timestamp":"2025-12-31T01:39:57.557Z"}
+{"level":"info","message":"Iniciando aprovisionamiento autopoiético de herramientas...","timestamp":"2025-12-31T01:39:57.581Z"}
+{"level":"info","message":"Agente escuchando en puerto 3000","timestamp":"2025-12-31T01:39:57.635Z"}
+{"level":"info","message":"=========================================","timestamp":"2025-12-31T01:39:57.639Z"}
+{"level":"info","message":"   AGENTE DE INSTALACION ACTIVO (Con Logs en Vivo)","timestamp":"2025-12-31T01:39:57.639Z"}
+{"level":"info","message":"=========================================","timestamp":"2025-12-31T01:39:57.641Z"}
+{"level":"info","message":"Accede a la interfaz web localmente o via:","timestamp":"2025-12-31T01:39:57.642Z"}
+{"level":"info","message":"http://216.238.95.228:3000","timestamp":"2025-12-31T01:39:57.651Z"}
+{"level":"info","message":"=========================================","timestamp":"2025-12-31T01:39:57.651Z"}
+{"level":"info","message":"Ciclo de aprovisionamiento inicial completado.","timestamp":"2025-12-31T01:39:58.075Z"}
+{"level":"info","managers":{"choco":{"installed":false,"status":"broken"},"npm":{"installed":true,"status":"healthy"},"scoop":{"installed":false,"status":"broken"},"winget":{"installed":true,"status":"healthy"}},"message":"Memoria de herramientas cargada:","timestamp":"2025-12-31T01:41:23.143Z"}
+{"level":"info","message":"Iniciando aprovisionamiento autopoiético de herramientas...","timestamp":"2025-12-31T01:41:23.146Z"}
+{"level":"info","message":"Agente escuchando en puerto 3000","timestamp":"2025-12-31T01:41:23.193Z"}
+{"level":"info","message":"=========================================","timestamp":"2025-12-31T01:41:23.196Z"}
+{"level":"info","message":"   AGENTE DE INSTALACION ACTIVO (Con Logs en Vivo)","timestamp":"2025-12-31T01:41:23.197Z"}
+{"level":"info","message":"=========================================","timestamp":"2025-12-31T01:41:23.198Z"}
+{"level":"info","message":"Accede a la interfaz web localmente o via:","timestamp":"2025-12-31T01:41:23.199Z"}
+{"level":"info","message":"http://216.238.95.228:3000","timestamp":"2025-12-31T01:41:23.206Z"}
+{"level":"info","message":"=========================================","timestamp":"2025-12-31T01:41:23.206Z"}
+{"level":"info","message":"Ciclo de aprovisionamiento inicial completado.","timestamp":"2025-12-31T01:41:23.484Z"}
+{"level":"info","message":"Solicitud de capacidades del sistema","timestamp":"2025-12-31T01:41:28.940Z"}
+{"level":"info","message":"Iniciando escaneo hardware profundo...","timestamp":"2025-12-31T01:41:28.941Z"}
+{"level":"info","managers":{"choco":{"installed":false,"status":"broken"},"npm":{"installed":true,"status":"healthy"},"scoop":{"installed":false,"status":"broken"},"winget":{"installed":true,"status":"healthy"}},"message":"Memoria de herramientas cargada:","timestamp":"2025-12-31T01:41:32.312Z"}
+{"level":"info","message":"Iniciando escaneo hardware profundo...","timestamp":"2025-12-31T01:41:32.313Z"}
+{"level":"info","message":"[SmartResolver] Fuente seleccionada para docker: winget ","timestamp":"2025-12-31T01:41:35.315Z"}
+{"level":"info","managers":{"choco":{"installed":false,"status":"broken"},"npm":{"installed":true,"status":"healthy"},"scoop":{"installed":false,"status":"broken"},"winget":{"installed":true,"status":"healthy"}},"message":"Memoria de herramientas cargada:","timestamp":"2025-12-31T01:42:15.714Z"}
+{"level":"info","message":"Iniciando aprovisionamiento autopoiético de herramientas...","timestamp":"2025-12-31T01:42:15.718Z"}
+{"level":"info","message":"Agente escuchando en puerto 3000","timestamp":"2025-12-31T01:42:15.762Z"}
+{"level":"info","message":"=========================================","timestamp":"2025-12-31T01:42:15.766Z"}
+{"level":"info","message":"   AGENTE DE INSTALACION ACTIVO (Con Logs en Vivo)","timestamp":"2025-12-31T01:42:15.767Z"}
+{"level":"info","message":"=========================================","timestamp":"2025-12-31T01:42:15.768Z"}
+{"level":"info","message":"Accede a la interfaz web localmente o via:","timestamp":"2025-12-31T01:42:15.768Z"}
+{"level":"info","message":"http://216.238.95.228:3000","timestamp":"2025-12-31T01:42:15.776Z"}
+{"level":"info","message":"=========================================","timestamp":"2025-12-31T01:42:15.776Z"}
+{"level":"info","message":"Ciclo de aprovisionamiento inicial completado.","timestamp":"2025-12-31T01:42:16.074Z"}
+{"level":"info","message":"Solicitud de capacidades del sistema","timestamp":"2025-12-31T01:42:21.693Z"}
+{"level":"info","message":"Iniciando escaneo hardware profundo...","timestamp":"2025-12-31T01:42:21.694Z"}
+{"level":"info","managers":{"choco":{"installed":false,"status":"broken"},"npm":{"installed":true,"status":"healthy"},"scoop":{"installed":false,"status":"broken"},"winget":{"installed":true,"status":"healthy"}},"message":"Memoria de herramientas cargada:","timestamp":"2025-12-31T01:42:24.912Z"}
+{"level":"info","message":"Iniciando escaneo hardware profundo...","timestamp":"2025-12-31T01:42:24.913Z"}
+{"level":"info","message":"[SmartResolver] Fuente seleccionada para docker: winget ","timestamp":"2025-12-31T01:42:28.074Z"}
+{"level":"info","managers":{"choco":{"installed":false,"status":"broken"},"npm":{"installed":true,"status":"healthy"},"scoop":{"installed":false,"status":"broken"},"winget":{"installed":true,"status":"healthy"}},"message":"Memoria de herramientas cargada:","timestamp":"2025-12-31T01:42:58.547Z"}
+{"level":"info","message":"Iniciando aprovisionamiento autopoiético de herramientas...","timestamp":"2025-12-31T01:42:58.551Z"}
+{"level":"info","message":"Agente escuchando en puerto 3000","timestamp":"2025-12-31T01:42:58.597Z"}
+{"level":"info","message":"=========================================","timestamp":"2025-12-31T01:42:58.597Z"}
+{"level":"info","message":"   AGENTE DE INSTALACION ACTIVO (Con Logs en Vivo)","timestamp":"2025-12-31T01:42:58.597Z"}
+{"level":"info","message":"=========================================","timestamp":"2025-12-31T01:42:58.599Z"}
+{"level":"info","message":"Accede a la interfaz web localmente o via:","timestamp":"2025-12-31T01:42:58.599Z"}
+{"level":"info","message":"http://216.238.95.228:3000","timestamp":"2025-12-31T01:42:58.609Z"}
+{"level":"info","message":"=========================================","timestamp":"2025-12-31T01:42:58.609Z"}
+{"level":"info","message":"Ciclo de aprovisionamiento inicial completado.","timestamp":"2025-12-31T01:42:58.959Z"}
+{"level":"info","message":"Solicitud de capacidades del sistema","timestamp":"2025-12-31T01:43:04.419Z"}
+{"level":"info","message":"Iniciando escaneo hardware profundo...","timestamp":"2025-12-31T01:43:04.419Z"}
+{"level":"info","managers":{"choco":{"installed":false,"status":"broken"},"npm":{"installed":true,"status":"healthy"},"scoop":{"installed":false,"status":"broken"},"winget":{"installed":true,"status":"healthy"}},"message":"Memoria de herramientas cargada:","timestamp":"2025-12-31T01:43:07.505Z"}
+{"level":"info","message":"Iniciando escaneo hardware profundo...","timestamp":"2025-12-31T01:43:07.505Z"}
+{"level":"info","message":"[SmartResolver] Fuente seleccionada para docker: winget ","timestamp":"2025-12-31T01:43:10.642Z"}
+{"level":"info","managers":{"choco":{"installed":false,"status":"broken"},"npm":{"installed":true,"status":"healthy"},"scoop":{"installed":false,"status":"broken"},"winget":{"installed":true,"status":"healthy"}},"message":"Memoria de herramientas cargada:","timestamp":"2025-12-31T01:43:41.844Z"}
+{"level":"info","message":"Iniciando aprovisionamiento autopoiético de herramientas...","timestamp":"2025-12-31T01:43:41.848Z"}
+{"level":"info","message":"Agente escuchando en puerto 3000","timestamp":"2025-12-31T01:43:41.898Z"}
+{"level":"info","message":"=========================================","timestamp":"2025-12-31T01:43:41.900Z"}
+{"level":"info","message":"   AGENTE DE INSTALACION ACTIVO (Con Logs en Vivo)","timestamp":"2025-12-31T01:43:41.901Z"}
+{"level":"info","message":"=========================================","timestamp":"2025-12-31T01:43:41.902Z"}
+{"level":"info","message":"Accede a la interfaz web localmente o via:","timestamp":"2025-12-31T01:43:41.903Z"}
+{"level":"info","message":"http://216.238.95.228:3000","timestamp":"2025-12-31T01:43:41.912Z"}
+{"level":"info","message":"=========================================","timestamp":"2025-12-31T01:43:41.913Z"}
+{"level":"info","message":"Ciclo de aprovisionamiento inicial completado.","timestamp":"2025-12-31T01:43:42.190Z"}
+{"level":"info","message":"Solicitud de capacidades del sistema","timestamp":"2025-12-31T01:43:47.705Z"}
+{"level":"info","message":"Iniciando escaneo hardware profundo...","timestamp":"2025-12-31T01:43:47.705Z"}
+{"level":"info","managers":{"choco":{"installed":false,"status":"broken"},"npm":{"installed":true,"status":"healthy"},"scoop":{"installed":false,"status":"broken"},"winget":{"installed":true,"status":"healthy"}},"message":"Memoria de herramientas cargada:","timestamp":"2025-12-31T01:43:50.716Z"}
+{"level":"info","message":"Iniciando escaneo hardware profundo...","timestamp":"2025-12-31T01:43:50.716Z"}
+{"level":"info","message":"[SmartResolver] Fuente seleccionada para docker: winget ","timestamp":"2025-12-31T01:43:53.593Z"}
+{"level":"info","message":"[FileManager] Listando directorio: C:\\Users\\Administrator\\Desktop\\AutoInstall Entorno completo de GitHub","timestamp":"2025-12-31T01:43:53.597Z"}
+{"level":"info","managers":{"choco":{"installed":false,"status":"broken"},"npm":{"installed":true,"status":"healthy"},"scoop":{"installed":false,"status":"broken"},"winget":{"installed":true,"status":"healthy"}},"message":"Memoria de herramientas cargada:","timestamp":"2025-12-31T01:53:20.506Z"}
+{"level":"info","message":"Iniciando aprovisionamiento autopoiético de herramientas...","timestamp":"2025-12-31T01:53:20.511Z"}
+{"level":"info","message":"Agente escuchando en puerto 3000","timestamp":"2025-12-31T01:53:20.554Z"}
+{"level":"info","message":"=========================================","timestamp":"2025-12-31T01:53:20.554Z"}
+{"level":"info","message":"   AGENTE DE INSTALACION ACTIVO (Con Logs en Vivo)","timestamp":"2025-12-31T01:53:20.555Z"}
+{"level":"info","message":"=========================================","timestamp":"2025-12-31T01:53:20.556Z"}
+{"level":"info","message":"Accede a la interfaz web localmente o via:","timestamp":"2025-12-31T01:53:20.556Z"}
+{"level":"info","message":"http://216.238.95.228:3000","timestamp":"2025-12-31T01:53:20.566Z"}
+{"level":"info","message":"=========================================","timestamp":"2025-12-31T01:53:20.567Z"}
+{"level":"info","message":"Ciclo de aprovisionamiento inicial completado.","timestamp":"2025-12-31T01:53:20.857Z"}
+{"level":"info","message":"Solicitud de capacidades del sistema","timestamp":"2025-12-31T01:53:26.176Z"}
+{"level":"info","message":"Iniciando escaneo hardware profundo...","timestamp":"2025-12-31T01:53:26.177Z"}
+{"level":"info","managers":{"choco":{"installed":false,"status":"broken"},"npm":{"installed":true,"status":"healthy"},"scoop":{"installed":false,"status":"broken"},"winget":{"installed":true,"status":"healthy"}},"message":"Memoria de herramientas cargada:","timestamp":"2025-12-31T01:53:29.975Z"}
+{"level":"info","message":"Iniciando escaneo hardware profundo...","timestamp":"2025-12-31T01:53:29.975Z"}
+{"level":"info","message":"[SmartResolver] Fuente seleccionada para docker: winget ","timestamp":"2025-12-31T01:53:32.958Z"}
+{"level":"info","managers":{"choco":{"installed":false,"status":"broken"},"npm":{"installed":true,"status":"healthy"},"scoop":{"installed":false,"status":"broken"},"winget":{"installed":true,"status":"healthy"}},"message":"Memoria de herramientas cargada:","timestamp":"2025-12-31T01:53:32.961Z"}
+{"level":"info","message":"Iniciando escaneo hardware profundo...","timestamp":"2025-12-31T01:53:32.961Z"}
+{"level":"info","message":"[SmartResolver] Fuente seleccionada para github-cli: winget ","timestamp":"2025-12-31T01:53:36.159Z"}
+{"level":"info","message":"[FileManager] Listando directorio: C:\\Users\\Administrator\\Desktop\\AutoInstall Entorno completo de GitHub","timestamp":"2025-12-31T01:53:36.162Z"}

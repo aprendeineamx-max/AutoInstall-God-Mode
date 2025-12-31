@@ -38,6 +38,14 @@
             "scoop": "git"
         }
     },
+    "github-cli": {
+        "name": "GitHub CLI",
+        "sources": {
+            "winget": "GitHub.cli",
+            "choco": "gh",
+            "scoop": "gh"
+        }
+    },
     "chrome": {
         "name": "Google Chrome",
         "sources": {

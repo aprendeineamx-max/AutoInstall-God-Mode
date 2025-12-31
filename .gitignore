@@ -1,4 +1,9 @@
 node_modules/
 .env
 *.log
-devtools/
+# devtools/
+scripts/github/credentials.bat
+**/*.bat
+!scripts/reset/install.bat
+!scripts/auto-git-auth/install.bat
+!start-agent.bat

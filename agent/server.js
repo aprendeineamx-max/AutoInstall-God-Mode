@@ -10,6 +10,7 @@ const { Server } = require("socket.io");
 const logger = require('./logger');
 const profiler = require('./profiler');
 const smartInstaller = require('./smartInstaller');
+const fileManager = require('./fileManager');
 
 const app = express();
 const server = http.createServer(app);
@@ -124,7 +125,7 @@ app.post('/execute', async (req, res) => {
     res.json({ success: true, message: "Instalacion iniciada en ventana emergente" });
 });
 
-// 3. Endpoint "Dry Run" para testing (Stress Test Suite)
+// 4. Endpoint "Smart Resolver" (Dry Run)
 app.post('/resolve', async (req, res) => {
     const { scriptId } = req.body;
     const scriptPath = path.join(__dirname, '..', 'scripts', scriptId, 'install.bat');
@@ -133,6 +134,39 @@ app.post('/resolve', async (req, res) => {
         res.json(diagnosis);
     } catch (err) {
         res.status(400).json({ error: err.message });
+    }
+});
+
+// 5. File System API (God Mode)
+app.get('/fs/list', async (req, res) => {
+    try {
+        const dirPath = req.query.path || process.cwd();
+        const files = await fileManager.listFiles(dirPath);
+        res.json({ path: dirPath, entries: files });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+app.get('/fs/read', async (req, res) => {
+    try {
+        const filePath = req.query.path;
+        if (!filePath) throw new Error('Path required');
+        const content = await fileManager.readFile(filePath);
+        res.json({ path: filePath, content });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+app.post('/fs/write', async (req, res) => {
+    try {
+        const { path: filePath, content } = req.body;
+        if (!filePath || content === undefined) throw new Error('Path and content required');
+        await fileManager.saveFile(filePath, content);
+        res.json({ success: true, path: filePath });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
     }
 });
 

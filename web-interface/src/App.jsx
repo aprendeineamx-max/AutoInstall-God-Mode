@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { Terminal, Settings, RefreshCw, Box, Play, AlertTriangle, Monitor } from 'lucide-react'
 import { io } from 'socket.io-client';
+import FileExplorer from './components/FileExplorer';
 
 // AGENT URL - In production this should be dynamic or configurable
 const AGENT_API = 'http://localhost:3000';
@@ -202,6 +203,15 @@ function App() {
                         ))}
                         <div ref={logsEndRef} />
                     </div>
+                </div>
+
+                {/* GOD MODE FILE EXPLORER */}
+                <div className="col-span-1 lg:col-span-3 mb-6">
+                    <div className="flex items-center gap-2 mb-4">
+                        <Monitor className="w-5 h-5 text-blue-400" />
+                        <h2 className="text-xl font-bold text-white">God Mode Explorer</h2>
+                    </div>
+                    <FileExplorer />
                 </div>
 
                 {/* Script Cards */}

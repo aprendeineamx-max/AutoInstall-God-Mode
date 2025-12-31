@@ -1,9 +1,21 @@
+# System & Dependencies
 node_modules/
 .env
 *.log
-# devtools/
+tools_state.json
+
+# Heavy Portables & Binaries
+Portables/
+*.exe
+*.zip
+*.msi
+*.7z
+
+# Secrets & Local Configs
 scripts/github/credentials.bat
-**/*.bat
-!scripts/reset/install.bat
-!scripts/auto-git-auth/install.bat
-!start-agent.bat
+auth_debug.log
+auth_retry.log
+
+# IDE
+.vscode/
+.idea/

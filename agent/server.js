@@ -160,10 +160,25 @@ app.get('/scripts', async (req, res) => {
                     scriptData.manifest = manifest;
 
                     if (manifest.check && manifest.check.command) {
-                        // Run check
+                        // Run check with extended PATH
+                        const extendedPath = [
+                            process.env.PATH,
+                            'C:\\Program Files\\Git\\cmd',
+                            'C:\\Program Files\\nodejs',
+                            'C:\\Python312',
+                            'C:\\Python311',
+                            'C:\\Python310',
+                            'C:\\Program Files\\GitHub CLI',
+                            process.env.LOCALAPPDATA + '\\Programs\\Python\\Python312',
+                            process.env.LOCALAPPDATA + '\\Programs\\Python\\Python311'
+                        ].join(';');
+
                         try {
                             await new Promise((resolve, reject) => {
-                                exec(manifest.check.command, { timeout: 2000 }, (err) => {
+                                exec(manifest.check.command, {
+                                    timeout: 5000,
+                                    env: { ...process.env, PATH: extendedPath }
+                                }, (err) => {
                                     if (err) reject(err);
                                     else resolve();
                                 });

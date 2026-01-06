@@ -163,14 +163,19 @@ app.get('/scripts', async (req, res) => {
                         // Run check with extended PATH
                         const extendedPath = [
                             process.env.PATH,
+                            'C:\\Windows', // py.exe launcher lives here
                             'C:\\Program Files\\Git\\cmd',
                             'C:\\Program Files\\nodejs',
+                            'C:\\Program Files\\Python',
+                            'C:\\Program Files\\Python\\Python312',
+                            'C:\\Program Files\\Python\\Python311',
                             'C:\\Python312',
                             'C:\\Python311',
                             'C:\\Python310',
                             'C:\\Program Files\\GitHub CLI',
                             process.env.LOCALAPPDATA + '\\Programs\\Python\\Python312',
-                            process.env.LOCALAPPDATA + '\\Programs\\Python\\Python311'
+                            process.env.LOCALAPPDATA + '\\Programs\\Python\\Python311',
+                            process.env.LOCALAPPDATA + '\\Programs\\Python\\Python310'
                         ].join(';');
 
                         try {
@@ -185,7 +190,22 @@ app.get('/scripts', async (req, res) => {
                             });
                             scriptData.status = 'installed';
                         } catch (e) {
-                            scriptData.status = 'missing';
+                            // Fallback for Python: try py launcher (Windows-specific)
+                            if (mod === 'python' && manifest.check.command.includes('python')) {
+                                try {
+                                    await new Promise((resolve, reject) => {
+                                        exec('py --version', { timeout: 5000 }, (err) => {
+                                            if (err) reject(err);
+                                            else resolve();
+                                        });
+                                    });
+                                    scriptData.status = 'installed';
+                                } catch (e2) {
+                                    scriptData.status = 'missing';
+                                }
+                            } else {
+                                scriptData.status = 'missing';
+                            }
                         }
                     } else {
                         scriptData.status = 'missing'; // Fallback

@@ -5,7 +5,9 @@ import FileExplorer from './components/FileExplorer';
 import StacksMarketplace from './components/StacksMarketplace';
 
 // AGENT URL - In production this should be dynamic or configurable
+// AGENT URL - In production this should be dynamic or configurable
 const AGENT_API = 'http://localhost:3000';
+const AGENT_KEY = 'godmode'; // Matching server default
 
 function App() {
     /* eslint-disable react/prop-types */
@@ -23,7 +25,9 @@ function App() {
         fetchCapabilities(); // New
 
         // Socket.IO Connection
-        const socket = io(AGENT_API);
+        const socket = io(AGENT_API, {
+            auth: { token: AGENT_KEY }
+        });
 
         socket.on('connect', () => {
             console.log('Connected to Agent WS');
@@ -43,7 +47,10 @@ function App() {
 
     const checkStatus = async () => {
         try {
-            const res = await fetch(`${AGENT_API}/status`);
+            // Status endpoint is public (allowed in middleware), but good practice to send key
+            const res = await fetch(`${AGENT_API}/status`, {
+                headers: { 'x-agent-key': AGENT_KEY }
+            });
             const data = await res.json();
             setStatus(data);
         } catch (e) {
@@ -54,7 +61,9 @@ function App() {
 
     const fetchScripts = async () => {
         try {
-            const res = await fetch(`${AGENT_API}/scripts`);
+            const res = await fetch(`${AGENT_API}/scripts`, {
+                headers: { 'x-agent-key': AGENT_KEY }
+            });
             const data = await res.json();
             setScripts(data);
         } catch (e) {
@@ -64,7 +73,9 @@ function App() {
 
     const fetchCapabilities = async () => {
         try {
-            const res = await fetch(`${AGENT_API}/capabilities`);
+            const res = await fetch(`${AGENT_API}/capabilities`, {
+                headers: { 'x-agent-key': AGENT_KEY }
+            });
             const data = await res.json();
             setCapabilities(data);
         } catch (e) {
@@ -83,7 +94,10 @@ function App() {
         try {
             const res = await fetch(`${AGENT_API}/execute`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-agent-key': AGENT_KEY
+                },
                 body: JSON.stringify({ scriptId, envVars })
             });
             await res.json();
@@ -100,7 +114,10 @@ function App() {
         try {
             await fetch(`${AGENT_API}/open-location`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-agent-key': AGENT_KEY
+                },
                 body: JSON.stringify({ scriptId })
             });
         } catch (e) {
@@ -113,7 +130,10 @@ function App() {
         try {
             await fetch(`${AGENT_API}/uninstall`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-agent-key': AGENT_KEY
+                },
                 body: JSON.stringify({ scriptId })
             });
             setTimeout(fetchScripts, 5000);

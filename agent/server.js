@@ -41,6 +41,37 @@ app.use(express.static(path.join(__dirname, '../web-interface/dist')));
 app.use(cors());
 app.use(bodyParser.json());
 
+// SECURITY MIDDLEWARE: Basic Auth
+const AGENT_KEY = process.env.AGENT_KEY || 'godmode'; // Default dev key
+const authMiddleware = (req, res, next) => {
+    // Allow options for CORS pre-flight
+    if (req.method === 'OPTIONS') return next();
+
+    // Allow status endpoint for health checks (optional, but good for watchers)
+    if (req.path === '/status' && req.method === 'GET') return next();
+
+    const clientKey = req.headers['x-agent-key'] || req.query.key;
+
+    if (clientKey === AGENT_KEY) {
+        next();
+    } else {
+        logger.warn(`Intento de acceso no autorizado desde ${req.ip}`);
+        res.status(401).json({ error: 'Unauthorized: Invalid Agent Key' });
+    }
+};
+
+app.use(authMiddleware);
+
+// Socket.IO Auth (Simple handshake)
+io.use((socket, next) => {
+    const token = socket.handshake.auth.token || socket.handshake.query.token;
+    if (token === AGENT_KEY) {
+        next();
+    } else {
+        next(new Error("Unauthorized"));
+    }
+});
+
 io.on('connection', (socket) => {
     logger.info(`Nuevo cliente conectado: ${socket.id}`);
     socket.on('disconnect', () => {

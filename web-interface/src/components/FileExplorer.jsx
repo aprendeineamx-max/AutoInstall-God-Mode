@@ -3,6 +3,7 @@ import { Folder, FileText, ChevronRight, ChevronDown, HardDrive, RefreshCw } fro
 
 /* eslint-disable react/prop-types */
 const AGENT_API = 'http://localhost:3000';
+const AGENT_KEY = 'godmode';
 
 const FileExplorer = () => {
     const [currentPath, setCurrentPath] = useState('');
@@ -20,7 +21,9 @@ const FileExplorer = () => {
         setLoading(true);
         try {
             const url = `${AGENT_API}/fs/list${path ? `?path=${encodeURIComponent(path)}` : ''}`;
-            const res = await fetch(url);
+            const res = await fetch(url, {
+                headers: { 'x-agent-key': AGENT_KEY }
+            });
             const data = await res.json();
 
             if (data.entries) {
@@ -46,7 +49,9 @@ const FileExplorer = () => {
             setSelectedFile(entry);
             // Read file content
             try {
-                const res = await fetch(`${AGENT_API}/fs/read?path=${encodeURIComponent(entry.path)}`);
+                const res = await fetch(`${AGENT_API}/fs/read?path=${encodeURIComponent(entry.path)}`, {
+                    headers: { 'x-agent-key': AGENT_KEY }
+                });
                 const data = await res.json();
                 setFileContent(data.content);
             } catch (e) {

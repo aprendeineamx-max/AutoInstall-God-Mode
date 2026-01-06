@@ -8,8 +8,14 @@ if exist "%LOCALAPPDATA%\ProtonDrive\ProtonDrive.exe" (
 echo [AutoInstall] Downloading Proton Drive...
 powershell -Command "Invoke-WebRequest -Uri 'https://proton.me/download/ProtonDrive-Setup.exe' -OutFile 'installer.exe'"
 
+if %ERRORLEVEL% NEQ 0 (
+    echo [ERROR] Auto-download failed. Opening download page...
+    start https://proton.me/drive/download
+    exit /b 1
+)
+
 echo [AutoInstall] Installing Proton Drive...
-start /wait installer.exe /S
+installer.exe /S
 del installer.exe
 
 echo [SUCCESS] Installation completed.

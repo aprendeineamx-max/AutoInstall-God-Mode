@@ -6,10 +6,17 @@ if exist "C:\Program Files\Proton\VPN\ProtonVPN.exe" (
 )
 
 echo [AutoInstall] Downloading Proton VPN...
-powershell -Command "Invoke-WebRequest -Uri 'https://protonvpn.com/download/ProtonVPN_Setup.exe' -OutFile 'installer.exe'"
+:: Try specific version v4.3.4 which is known to exist
+powershell -Command "Invoke-WebRequest -Uri 'https://github.com/ProtonVPN/win-app/releases/download/v4.3.5/ProtonVPN_v4.3.5_x64.exe' -OutFile 'installer.exe'"
+
+if %ERRORLEVEL% NEQ 0 (
+    echo [ERROR] Download failed. Opening download page...
+    start https://protonvpn.com/download
+    exit /b 1
+)
 
 echo [AutoInstall] Installing Proton VPN...
-start /wait installer.exe /S
+installer.exe /S
 del installer.exe
 
 echo [SUCCESS] Installation completed.

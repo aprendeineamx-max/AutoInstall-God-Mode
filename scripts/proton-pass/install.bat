@@ -8,8 +8,14 @@ if exist "%LOCALAPPDATA%\ProtonPass\ProtonPass.exe" (
 echo [AutoInstall] Downloading Proton Pass...
 powershell -Command "Invoke-WebRequest -Uri 'https://proton.me/download/ProtonPass-Setup.exe' -OutFile 'installer.exe'"
 
+if %ERRORLEVEL% NEQ 0 (
+    echo [ERROR] Auto-download failed. Opening download page...
+    start https://proton.me/pass/download
+    exit /b 1
+)
+
 echo [AutoInstall] Installing Proton Pass...
-start /wait installer.exe /S
+installer.exe /S
 del installer.exe
 
 echo [SUCCESS] Installation completed.

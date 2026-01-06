@@ -1,0 +1,18 @@
+{
+    "id": "proton-vpn",
+    "name": "Proton VPN",
+    "description": "High-speed Swiss VPN that safeguards your privacy.",
+    "check": {
+        "command": "cmd /c \"if exist \"C:\\Program Files\\Proton\\VPN\\ProtonVPN.exe\" (exit 0) else (exit 1)\"",
+        "type": "cmd"
+    },
+    "install": {
+        "command": "install.bat"
+    },
+    "uninstall": {
+        "command": "winget uninstall Proton.VPN"
+    },
+    "locate": {
+        "command": "echo C:\\Program Files\\Proton\\VPN\\ProtonVPN.exe"
+    }
+}

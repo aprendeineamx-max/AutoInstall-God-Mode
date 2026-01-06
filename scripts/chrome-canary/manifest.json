@@ -1,0 +1,18 @@
+{
+    "id": "chrome-canary",
+    "name": "Chrome Canary",
+    "description": "Bleeding edge version of Chrome. Unstable. Updated daily.",
+    "check": {
+        "command": "cmd /c \"if exist \"%LOCALAPPDATA%\\Google\\Chrome SxS\\Application\\chrome.exe\" (exit 0) else (exit 1)\"",
+        "type": "cmd"
+    },
+    "install": {
+        "command": "install.bat"
+    },
+    "uninstall": {
+        "command": "winget uninstall Google.Chrome.Canary"
+    },
+    "locate": {
+        "command": "echo %LOCALAPPDATA%\\Google\\Chrome SxS\\Application\\chrome.exe"
+    }
+}

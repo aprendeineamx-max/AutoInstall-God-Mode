@@ -1,0 +1,18 @@
+{
+    "id": "firefox-dev",
+    "name": "Firefox Developer",
+    "description": "Built for those who build the web. The only browser made for developers.",
+    "check": {
+        "command": "cmd /c \"if exist \"C:\\Program Files\\Firefox Developer Edition\\firefox.exe\" (exit 0) else (exit 1)\"",
+        "type": "cmd"
+    },
+    "install": {
+        "command": "install.bat"
+    },
+    "uninstall": {
+        "command": "winget uninstall Mozilla.Firefox.DeveloperEdition"
+    },
+    "locate": {
+        "command": "echo C:\\Program Files\\Firefox Developer Edition\\firefox.exe"
+    }
+}

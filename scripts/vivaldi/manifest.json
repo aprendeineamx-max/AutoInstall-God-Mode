@@ -1,0 +1,18 @@
+{
+    "id": "vivaldi",
+    "name": "Vivaldi",
+    "description": "A browser that acts more like an OS, featuring unique customization.",
+    "check": {
+        "command": "cmd /c \"if exist \"%LOCALAPPDATA%\\Vivaldi\\Application\\vivaldi.exe\" (exit 0) else (if exist \"C:\\Program Files\\Vivaldi\\Application\\vivaldi.exe\" (exit 0) else (exit 1))\"",
+        "type": "cmd"
+    },
+    "install": {
+        "command": "install.bat"
+    },
+    "uninstall": {
+        "command": "winget uninstall Vivaldi.Vivaldi"
+    },
+    "locate": {
+        "command": "echo %LOCALAPPDATA%\\Vivaldi\\Application\\vivaldi.exe"
+    }
+}

@@ -1,0 +1,18 @@
+{
+    "id": "proton-mail",
+    "name": "Proton Mail Bridge",
+    "description": "Integrate your encrypted Proton Mail account with desktop email clients.",
+    "check": {
+        "command": "cmd /c \"if exist \"C:\\Program Files\\Proton\\Bridge\\ProtonMailBridge.exe\" (exit 0) else (exit 1)\"",
+        "type": "cmd"
+    },
+    "install": {
+        "command": "install.bat"
+    },
+    "uninstall": {
+        "command": "winget uninstall Proton.MailBridge"
+    },
+    "locate": {
+        "command": "echo C:\\Program Files\\Proton\\Bridge\\ProtonMailBridge.exe"
+    }
+}

@@ -1,0 +1,18 @@
+{
+    "id": "brave",
+    "name": "Brave Browser",
+    "description": "Secure, fast, and private web browser with Adblocker.",
+    "check": {
+        "command": "cmd /c \"if exist \"C:\\Program Files\\BraveSoftware\\Brave-Browser\\Application\\brave.exe\" (exit 0) else (if exist \"C:\\Program Files (x86)\\BraveSoftware\\Brave-Browser\\Application\\brave.exe\" (exit 0) else (exit 1))\"",
+        "type": "cmd"
+    },
+    "install": {
+        "command": "install.bat"
+    },
+    "uninstall": {
+        "command": "winget uninstall Brave.Brave"
+    },
+    "locate": {
+        "command": "echo C:\\Program Files\\BraveSoftware\\Brave-Browser\\Application\\brave.exe"
+    }
+}

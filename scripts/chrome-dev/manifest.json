@@ -1,0 +1,18 @@
+{
+    "id": "chrome-dev",
+    "name": "Chrome Dev",
+    "description": "For developers who want to test the absolute latest web features.",
+    "check": {
+        "command": "winget list -e --id Google.Chrome.Dev",
+        "type": "cmd"
+    },
+    "install": {
+        "command": "install.bat"
+    },
+    "uninstall": {
+        "command": "winget uninstall Google.Chrome.Dev"
+    },
+    "locate": {
+        "command": "echo C:\\Program Files\\Google\\Chrome Dev\\Application\\chrome.exe"
+    }
+}

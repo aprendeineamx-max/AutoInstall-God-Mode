@@ -1,0 +1,18 @@
+{
+    "id": "firefox-nightly",
+    "name": "Firefox Nightly",
+    "description": "Test the very latest changes to Firefox every night.",
+    "check": {
+        "command": "cmd /c \"if exist \"C:\\Program Files\\Firefox Nightly\\firefox.exe\" (exit 0) else (exit 1)\"",
+        "type": "cmd"
+    },
+    "install": {
+        "command": "install.bat"
+    },
+    "uninstall": {
+        "command": "winget uninstall Mozilla.Firefox.Nightly"
+    },
+    "locate": {
+        "command": "echo C:\\Program Files\\Firefox Nightly\\firefox.exe"
+    }
+}

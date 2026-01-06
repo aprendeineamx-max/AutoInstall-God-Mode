@@ -1,0 +1,18 @@
+{
+    "id": "proton-drive",
+    "name": "Proton Drive",
+    "description": "Secure cloud storage with end-to-end encryption.",
+    "check": {
+        "command": "cmd /c \"if exist \"%LOCALAPPDATA%\\ProtonDrive\\ProtonDrive.exe\" (exit 0) else (exit 1)\"",
+        "type": "cmd"
+    },
+    "install": {
+        "command": "install.bat"
+    },
+    "uninstall": {
+        "command": "winget uninstall Proton.Drive"
+    },
+    "locate": {
+        "command": "echo %LOCALAPPDATA%\\ProtonDrive\\ProtonDrive.exe"
+    }
+}

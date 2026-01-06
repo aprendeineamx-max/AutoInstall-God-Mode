@@ -1,0 +1,18 @@
+{
+    "id": "firefox",
+    "name": "Mozilla Firefox",
+    "description": "Fast, private and free open source web browser.",
+    "check": {
+        "command": "cmd /c \"if exist \"C:\\Program Files\\Mozilla Firefox\\firefox.exe\" (exit 0) else (exit 1)\"",
+        "type": "cmd"
+    },
+    "install": {
+        "command": "install.bat"
+    },
+    "uninstall": {
+        "command": "winget uninstall Mozilla.Firefox"
+    },
+    "locate": {
+        "command": "echo C:\\Program Files\\Mozilla Firefox\\firefox.exe"
+    }
+}

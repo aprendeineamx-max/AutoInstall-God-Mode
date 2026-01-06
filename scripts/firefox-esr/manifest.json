@@ -1,0 +1,18 @@
+{
+    "id": "firefox-esr",
+    "name": "Firefox ESR",
+    "description": "Extended Support Release for large organizations.",
+    "check": {
+        "command": "winget list -e --id Mozilla.Firefox.ESR",
+        "type": "cmd"
+    },
+    "install": {
+        "command": "install.bat"
+    },
+    "uninstall": {
+        "command": "winget uninstall Mozilla.Firefox.ESR"
+    },
+    "locate": {
+        "command": "where firefox"
+    }
+}

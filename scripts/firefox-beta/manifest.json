@@ -1,0 +1,18 @@
+{
+    "id": "firefox-beta",
+    "name": "Firefox Beta",
+    "description": "Experience the latest features before they reach the mainstream release.",
+    "check": {
+        "command": "cmd /c \"if exist \"C:\\Program Files\\Mozilla Firefox Beta\\firefox.exe\" (exit 0) else (exit 1)\"",
+        "type": "cmd"
+    },
+    "install": {
+        "command": "install.bat"
+    },
+    "uninstall": {
+        "command": "winget uninstall Mozilla.Firefox.Beta"
+    },
+    "locate": {
+        "command": "echo C:\\Program Files\\Mozilla Firefox Beta\\firefox.exe"
+    }
+}

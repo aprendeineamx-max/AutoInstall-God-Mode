@@ -1,0 +1,18 @@
+{
+    "id": "edge",
+    "name": "Microsoft Edge",
+    "description": "World-class performance with more privacy, more productivity, and more value.",
+    "check": {
+        "command": "cmd /c \"if exist \"C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe\" (exit 0) else (exit 1)\"",
+        "type": "cmd"
+    },
+    "install": {
+        "command": "install.bat"
+    },
+    "uninstall": {
+        "command": "echo Cannot uninstall core system component."
+    },
+    "locate": {
+        "command": "echo C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe"
+    }
+}

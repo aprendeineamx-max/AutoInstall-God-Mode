@@ -1,0 +1,18 @@
+{
+    "id": "chrome",
+    "name": "Google Chrome",
+    "description": "Fast, secure, and free web browser, built for the modern web.",
+    "check": {
+        "command": "cmd /c \"if exist \"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" (exit 0) else (if exist \"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe\" (exit 0) else (exit 1))\"",
+        "type": "cmd"
+    },
+    "install": {
+        "command": "install.bat"
+    },
+    "uninstall": {
+        "command": "winget uninstall Google.Chrome"
+    },
+    "locate": {
+        "command": "echo C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+    }
+}

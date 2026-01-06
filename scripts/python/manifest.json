@@ -1,0 +1,18 @@
+{
+    "id": "python",
+    "name": "Python 3",
+    "description": "High-level programming language for general-purpose programming.",
+    "check": {
+        "command": "python --version",
+        "type": "cmd"
+    },
+    "install": {
+        "command": "install.bat"
+    },
+    "uninstall": {
+        "command": "winget uninstall Python.Python.3"
+    },
+    "locate": {
+        "command": "where python"
+    }
+}

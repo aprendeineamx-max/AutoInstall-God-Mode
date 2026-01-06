@@ -1,0 +1,12 @@
+{
+    "id": "utils",
+    "name": "System Utilities",
+    "description": "Essential system tools and helpers (Offline Bundle Creator).",
+    "check": {
+        "command": "exit 1",
+        "type": "cmd"
+    },
+    "install": {
+        "command": "powershell -ExecutionPolicy Bypass -File create_offline_bundle.ps1"
+    }
+}

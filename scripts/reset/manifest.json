@@ -1,0 +1,12 @@
+{
+    "id": "reset",
+    "name": "System Reset",
+    "description": "DANGER: Resets all AutoInstall configurations and tools.",
+    "check": {
+        "command": "exit 1",
+        "type": "cmd"
+    },
+    "install": {
+        "command": "install.bat"
+    }
+}

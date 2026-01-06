@@ -1,0 +1,18 @@
+{
+    "id": "github",
+    "name": "Git & GitHub CLI",
+    "description": "Distributed version control and GitHub command line tool.",
+    "check": {
+        "command": "git --version",
+        "type": "cmd"
+    },
+    "install": {
+        "command": "install.bat"
+    },
+    "uninstall": {
+        "command": "winget uninstall Git.Git"
+    },
+    "locate": {
+        "command": "where git"
+    }
+}

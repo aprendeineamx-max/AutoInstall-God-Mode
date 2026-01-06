@@ -97,31 +97,121 @@ app.get('/status', (req, res) => {
 });
 
 // 2. Listar Scripts Disponibles
-app.get('/scripts', (req, res) => {
-    // Escanea recursivamente la carpeta scripts
+// 2. Listar Scripts Disponibles (Smart Detection)
+app.get('/scripts', async (req, res) => {
     try {
         const modules = fs.readdirSync(SCRIPTS_DIR).filter(file => {
             return fs.statSync(path.join(SCRIPTS_DIR, file)).isDirectory();
         });
 
-        const scriptList = modules.map(mod => {
-            // Buscamos si existe install.bat
+        const scriptList = await Promise.all(modules.map(async (mod) => {
             const modPath = path.join(SCRIPTS_DIR, mod);
-            const files = fs.readdirSync(modPath);
-            const installScript = files.find(f => f.toLowerCase() === 'install.bat' || f.toLowerCase() === 'install.ps1');
+            const manifestPath = path.join(modPath, 'manifest.json');
+            const installScript = fs.existsSync(path.join(modPath, 'install.bat')) ? 'install.bat' :
+                (fs.existsSync(path.join(modPath, 'install.ps1')) ? 'install.ps1' : null);
 
-            return {
+            let scriptData = {
                 id: mod,
-                name: mod.charAt(0).toUpperCase() + mod.slice(1), // Capitalize
+                name: mod.charAt(0).toUpperCase() + mod.slice(1),
+                description: "Automated installation package.",
+                version: "1.0.0", // Placeholder
                 hasInstaller: !!installScript,
-                path: installScript ? path.join('scripts', mod, installScript) : null
+                status: 'unknown',
+                manifest: null
             };
-        });
+
+            // Smart Detection via Manifest
+            if (fs.existsSync(manifestPath)) {
+                try {
+                    const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+                    scriptData.name = manifest.name || scriptData.name;
+                    scriptData.description = manifest.description || scriptData.description;
+                    scriptData.manifest = manifest;
+
+                    if (manifest.check && manifest.check.command) {
+                        // Run check
+                        try {
+                            await new Promise((resolve, reject) => {
+                                exec(manifest.check.command, { timeout: 2000 }, (err) => {
+                                    if (err) reject(err);
+                                    else resolve();
+                                });
+                            });
+                            scriptData.status = 'installed';
+                        } catch (e) {
+                            scriptData.status = 'missing';
+                        }
+                    } else {
+                        scriptData.status = 'missing'; // Fallback
+                    }
+                } catch (e) {
+                    logger.error(`Error reading manifest for ${mod}:`, e);
+                }
+            } else {
+                // Legacy Fallback: Assume missing if we can't check, or 'unknown'
+                scriptData.status = 'missing';
+            }
+
+            return scriptData;
+        }));
 
         res.json(scriptList);
     } catch (error) {
         logger.error("Error leyendo scripts:", error);
         res.status(500).json({ error: error.message });
+    }
+});
+
+// 2a. Open Location Endpoint
+app.post('/open-location', async (req, res) => {
+    const { scriptId } = req.body;
+    const manifestPath = path.join(SCRIPTS_DIR, scriptId, 'manifest.json');
+
+    if (!fs.existsSync(manifestPath)) return res.status(404).json({ error: "Manifest not found" });
+
+    try {
+        const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+        if (manifest.locate && manifest.locate.command) {
+            exec(manifest.locate.command, async (err, stdout) => {
+                if (!err && stdout.trim()) {
+                    // Open explorer and select file
+                    const fileLoc = stdout.split('\n')[0].trim();
+                    exec(`explorer /select,"${fileLoc}"`);
+                    res.json({ success: true });
+                } else {
+                    res.status(404).json({ error: "Location not found" });
+                }
+            });
+        } else {
+            res.status(400).json({ error: "Locate capability not defined" });
+        }
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+// 2b. Uninstall Endpoint
+app.post('/uninstall', (req, res) => {
+    const { scriptId } = req.body;
+    const manifestPath = path.join(SCRIPTS_DIR, scriptId, 'manifest.json');
+
+    if (!fs.existsSync(manifestPath)) return res.status(404).json({ error: "Manifest not found" });
+
+    try {
+        const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+        if (manifest.uninstall && manifest.uninstall.command) {
+            // Spawn detached to allow persistence
+            const child = spawn('cmd.exe', ['/c', 'start', 'cmd.exe', '/c', manifest.uninstall.command + ' & pause'], {
+                detached: true,
+                stdio: 'ignore'
+            });
+            child.unref();
+            res.json({ success: true, message: "Uninstallation started" });
+        } else {
+            res.status(400).json({ error: "Uninstall capability not defined" });
+        }
+    } catch (e) {
+        res.status(500).json({ error: e.message });
     }
 });
 

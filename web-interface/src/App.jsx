@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { Terminal, Settings, RefreshCw, Box, Play, AlertTriangle, Monitor } from 'lucide-react'
+import { Terminal, Settings, RefreshCw, Box, Play, AlertTriangle, Monitor, FolderOpen, Trash2, RotateCcw } from 'lucide-react'
 import { io } from 'socket.io-client';
 import FileExplorer from './components/FileExplorer';
 import StacksMarketplace from './components/StacksMarketplace';
@@ -86,13 +86,39 @@ function App() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ scriptId, envVars })
             });
-            const data = await res.json();
-            // Alert is no longer needed as logs will show the action
-            // alert(`Output: ${data.message || data.error}`);
+            await res.json();
+            // Refresh logic after a delay
+            setTimeout(fetchScripts, 5000);
         } catch (e) {
             alert("Error starting installation");
         } finally {
             setInstalling(null);
+        }
+    };
+
+    const handleOpen = async (scriptId) => {
+        try {
+            await fetch(`${AGENT_API}/open-location`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ scriptId })
+            });
+        } catch (e) {
+            alert("Error opening location");
+        }
+    };
+
+    const handleUninstall = async (scriptId) => {
+        if (!confirm("Are you sure you want to uninstall this tool?")) return;
+        try {
+            await fetch(`${AGENT_API}/uninstall`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ scriptId })
+            });
+            setTimeout(fetchScripts, 5000);
+        } catch (e) {
+            alert("Error starting uninstallation");
         }
     };
 
@@ -222,36 +248,72 @@ function App() {
 
                 {/* Script Cards */}
                 {scripts.map((script) => (
-                    <div key={script.id} className="group relative bg-slate-900 border border-slate-800 hover:border-blue-500/50 rounded-2xl p-6 transition-all hover:shadow-2xl hover:shadow-blue-900/10 overflow-hidden">
+                    <div key={script.id} className={`group relative bg-slate-900 border border-slate-800 rounded-2xl p-6 transition-all hover:shadow-2xl overflow-hidden
+                        ${script.status === 'installed' ? 'hover:border-green-500/50 hover:shadow-green-900/10' : 'hover:border-blue-500/50 hover:shadow-blue-900/10'}
+                    `}>
                         <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-100 transition-opacity">
-                            <Settings className="w-12 h-12 text-blue-500 transform group-hover:rotate-45 transition-transform duration-700" />
+                            <Settings className="w-12 h-12 text-slate-500 transform group-hover:rotate-45 transition-transform duration-700" />
                         </div>
 
-                        <h3 className="text-xl font-bold text-white mb-2">{script.name}</h3>
-                        <p className="text-slate-400 text-sm mb-6">Automated installation package.</p>
+                        <div className="flex justify-between items-start mb-2">
+                            <h3 className="text-xl font-bold text-white">{script.name}</h3>
+                            {script.status === 'installed' && (
+                                <span className="px-2 py-0.5 rounded-full bg-green-500/20 text-green-400 text-xs font-medium border border-green-500/30">INSTALLED</span>
+                            )}
+                        </div>
 
-                        <div className="flex items-center justify-between mt-auto">
-                            <span className="text-xs font-mono px-2 py-1 rounded bg-slate-800 text-slate-300">v1.0.0</span>
+                        <p className="text-slate-400 text-sm mb-6">{script.description}</p>
 
-                            <button
-                                onClick={() => handleInstall(script.id)}
-                                disabled={!status?.online || installing === script.id || !script.hasInstaller}
-                                className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all
-                        ${!script.hasInstaller ? 'bg-slate-800 text-slate-500 cursor-not-allowed' :
-                                        installing === script.id ? 'bg-yellow-600 text-white cursor-wait' :
-                                            'bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-500/20'}
-                    `}
-                            >
-                                {installing === script.id ? (
-                                    <>
-                                        <RefreshCw className="w-4 h-4 animate-spin" /> Installing...
-                                    </>
-                                ) : (
-                                    <>
-                                        <Play className="w-4 h-4" /> Install
-                                    </>
-                                )}
-                            </button>
+                        <div className="flex items-center justify-between mt-auto gap-2">
+                            {/* Actions based on status */}
+                            {script.status === 'installed' ? (
+                                <>
+                                    <button
+                                        onClick={() => handleOpen(script.id)}
+                                        className="flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-lg font-medium bg-green-600 hover:bg-green-500 text-white transition-all shadow-lg shadow-green-500/20"
+                                    >
+                                        <FolderOpen className="w-4 h-4" /> Open
+                                    </button>
+                                    <button
+                                        onClick={() => handleUninstall(script.id)}
+                                        className="p-2 rounded-lg bg-red-900/20 hover:bg-red-900/40 text-red-500 transition-colors border border-red-900/30"
+                                        title="Uninstall"
+                                    >
+                                        <Trash2 className="w-4 h-4" />
+                                    </button>
+                                </>
+                            ) : (
+                                <button
+                                    onClick={() => handleInstall(script.id)}
+                                    disabled={!status?.online || installing === script.id || !script.hasInstaller}
+                                    className={`flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-lg font-medium transition-all
+                                    ${!script.hasInstaller ? 'bg-slate-800 text-slate-500 cursor-not-allowed' :
+                                            installing === script.id ? 'bg-yellow-600 text-white cursor-wait' :
+                                                'bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-500/20'}
+                                `}
+                                >
+                                    {installing === script.id ? (
+                                        <>
+                                            <RefreshCw className="w-4 h-4 animate-spin" /> Installing...
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Play className="w-4 h-4" /> Install
+                                        </>
+                                    )}
+                                </button>
+                            )}
+
+                            {/* Reinstall Option (Small) if installed */}
+                            {script.status === 'installed' && (
+                                <button
+                                    onClick={() => handleInstall(script.id)}
+                                    className="p-2 rounded-lg hover:bg-slate-800 text-slate-500 hover:text-white transition-colors"
+                                    title="Reinstall/Update"
+                                >
+                                    <RotateCcw className="w-4 h-4" />
+                                </button>
+                            )}
                         </div>
                     </div>
                 ))}

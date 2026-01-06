@@ -1,0 +1,12 @@
+{
+    "id": "auto-git-auth",
+    "name": "Auto Git Auth",
+    "description": "Automated GitHub Authentication Helper.",
+    "check": {
+        "command": "gh auth status",
+        "type": "cmd"
+    },
+    "install": {
+        "command": "install.bat"
+    }
+}

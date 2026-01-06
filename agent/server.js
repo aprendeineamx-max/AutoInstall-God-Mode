@@ -218,6 +218,27 @@ app.post('/uninstall', (req, res) => {
 // 2. Ejecutar Script (Smart Install)
 app.post('/execute', async (req, res) => {
     const { scriptId, envVars } = req.body;
+
+    // Resolve script path (bat or ps1)
+    const modPath = path.join(SCRIPTS_DIR, scriptId);
+    let scriptPathAbs = path.join(modPath, 'install.bat');
+    let extension = '.bat';
+
+    if (!fs.existsSync(scriptPathAbs)) {
+        scriptPathAbs = path.join(modPath, 'install.ps1');
+        extension = '.ps1';
+    }
+
+    if (!fs.existsSync(scriptPathAbs)) {
+        return res.status(404).json({ error: `Installer not found for ${scriptId}` });
+    }
+
+    // Create a temporary wrapper script
+    const wrapperName = `wrapper_${Date.now()}.bat`;
+    const wrapperPath = path.join(os.tmpdir(), wrapperName);
+
+    let wrapperContent = '@echo off\n';
+
     // Inyectar vars
     if (envVars) {
         for (const [key, val] of Object.entries(envVars)) {
@@ -226,7 +247,13 @@ app.post('/execute', async (req, res) => {
     }
 
     wrapperContent += `cd /d "${path.dirname(scriptPathAbs)}"\n`;
-    wrapperContent += `call "${path.basename(scriptPathAbs)}"\n`;
+
+    if (extension === '.ps1') {
+        wrapperContent += `powershell -ExecutionPolicy Bypass -File "${path.basename(scriptPathAbs)}"\n`;
+    } else {
+        wrapperContent += `call "${path.basename(scriptPathAbs)}"\n`;
+    }
+
     wrapperContent += 'pause\n'; // Pausa al final para ver resultado
     wrapperContent += 'exit\n'; // Cerrar ventana
 

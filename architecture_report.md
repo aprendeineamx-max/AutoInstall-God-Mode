@@ -1,145 +1,145 @@
-# AutoInstall God Mode - System Architecture Report
+# AutoInstall God Mode - Reporte de Arquitectura del Sistema
 
-## 1. Executive Summary
-"AutoInstall God Mode" is a high-capability system automation agent designed to act as a "Developer Operating System". Its core philosophy is **Autopoiesis**—the system is self-maintaining, self-correcting, and robust. It moves beyond simple scripts to provide a managed, API-driven layer over system tools like Winget, Chocolatey, and Scoop.
+## 1. Resumen Ejecutivo
+"AutoInstall God Mode" es un sistema de automatización de alto nivel diseñado para actuar como un "Sistema Operativo para Desarrolladores". Su filosofía central es la **Autopoiesis**: el sistema es auto-mantenible, auto-corregible y robusto. Va más allá de simples scripts para proporcionar una capa gestionada vía API sobre herramientas del sistema como Winget, Chocolatey y Scoop.
 
-## 2. High-Level Architecture Diagram
+## 2. Diagrama de Arquitectura de Alto Nivel
 
 ```mermaid
 graph TD
-    subgraph Client Layer [Frontend (Web Interface)]
-        UI[React Dashboard]
-        WS_Client[Socket.IO Client]
+    subgraph Capa Cliente [Frontend (Interfaz Web)]
+        UI[Dashboard React]
+        WS_Client[Cliente Socket.IO]
         API_Client[Fetch API]
     end
 
-    subgraph Agent Layer [Node.js Backend]
-        Server[Express Server]
-        WS_Server[Socket.IO Server]
-        Watchdog[Watchdog Service]
+    subgraph Capa Agente [Backend Node.js]
+        Server[Servidor Express]
+        WS_Server[Servidor Socket.IO]
+        Watchdog[Servicio Watchdog]
         
-        subgraph Core Modules
-            SI[Smart Installer]
-            SM[Stack Manager]
-            PR[Profiler]
-            FM[File Manager]
+        subgraph Modulos Core
+            SI[Instalador Inteligente]
+            SM[Gestor de Stacks]
+            PR[Perfilador (Profiler)]
+            FM[Gestor de Archivos]
             LOG[Logger]
         end
         
-        subgraph Data & State
-            Manifest[Universal Manifest]
-            State[Tools State JSON]
-            Stacks[Stacks Library]
+        subgraph Datos y Estado
+            Manifest[Manifiesto Universal]
+            State[Estado de Herramientas JSON]
+            Stacks[Biblioteca de Stacks]
         end
     end
 
-    subgraph System Layer [Operating System]
+    subgraph Capa Sistema [Sistema Operativo]
         Shell[PowerShell / CMD]
-        PM[Package Managers]
+        PM[Gestores de Paquetes]
         
         PM_W[Winget]
         PM_C[Chocolatey]
         PM_S[Scoop]
         
-        FS[File System]
+        FS[Sistema de Archivos]
     end
 
-    %% Interactions
-    UI -->|HTTP Requests| Server
-    WS_Client <-->|Real-time Logs| WS_Server
+    %% Interacciones
+    UI -->|Peticiones HTTP| Server
+    WS_Client <-->|Logs Tiempo Real| WS_Server
     
     Server --> SI
     Server --> SM
     Server --> PR
     Server --> FM
     
-    SI -->|Read/Write| State
-    SI -->|Read| Manifest
-    SI -->|Execute| Shell
+    SI -->|Leer/Escribir| State
+    SI -->|Leer| Manifest
+    SI -->|Ejecutar| Shell
     
-    SM -->|Hydrate| SI
-    SM -->|Read| Stacks
+    SM -->|Hidratar| SI
+    SM -->|Leer| Stacks
     
     Shell --> PM
     PM --> PM_W
     PM --> PM_C
     PM --> PM_S
     
-    Watchdog -.->|Monitor/Restart| Server
+    Watchdog -.->|Monitorear/Reiniciar| Server
 ```
 
-## 3. Core Component Analysis
+## 3. Análisis de Componentes Principales
 
-### A. The Agent (Backend)
-Located in `/agent`, this is the brain of the system.
-- **Server (`server.js`)**: Exposes REST endpoints for system control and serves the static frontend. It initializes the `SmartInstaller` and `Logger`.
-- **Smart Installer (`smartInstaller.js`)**: The "Autopoiesis" engine.
-  - **Self-Healing**: Automatically detects if Winget/Choco/Scoop are missing and attempts to install them.
-  - **Universal Resolution**: Decides which package manager to use based on a `universal_manifest.json` priority list (Winget > Choco > Scoop).
-  - **Requirements Checking**: Verifies RAM/Disk/Virtualization requirements before attempting installations.
-- **Stack Manager (`stackManager.js`)**: Handles "Neural Stacks" (`.ai-stack` files)—JSON definitions of complete dev environments (packages, VS Code extensions, scripts).
-- **Watchdog (`watchdog.js`)**: A separate process that monitors the main server. If the server crashes, the Watchdog restarts it immediately, ensuring high availability.
+### A. El Agente (Backend)
+Ubicado en `/agent`, es el cerebro del sistema.
+- **Server (`server.js`)**: Expone endpoints REST para control del sistema y sirve el frontend estático. Inicializa el `SmartInstaller` y el `Logger`.
+- **Instalador Inteligente (`smartInstaller.js`)**: El motor de "Autopoiesis".
+  - **Auto-Curación**: Detecta automáticamente si faltan Winget/Choco/Scoop e intenta instalarlos.
+  - **Resolución Universal**: Decide qué gestor de paquetes usar basado en una lista de prioridad definida en `universal_manifest.json` (Winget > Choco > Scoop).
+  - **Verificación de Requisitos**: Verifica RAM/Disco/Virtualización antes de intentar instalaciones.
+- **Gestor de Stacks (`stackManager.js`)**: Maneja "Neural Stacks" (archivos `.ai-stack`)—definiciones JSON de entornos de desarrollo completos (paquetes, extensiones de VS Code, scripts).
+- **Watchdog (`watchdog.js`)**: Un proceso separado que vigila al servidor principal. Si el servidor falla, el Watchdog lo reinicia inmediatamente, asegurando alta disponibilidad.
 
-### B. The Web Interface (Frontend)
-Located in `/web-interface`, built with React + Vite + Tailwind.
-- **Dashboard (`App.jsx`)**: A "God Mode" dashboard showing:
-  - **Deep System Stats**: Real-time CPU, RAM (with usage bars), GPU, and OS info.
-  - **Script Marketplace**: List of available automation scripts with status indicators.
-  - **Terminal**: Real-time streaming logs from the agent via WebSockets.
-  - **File Explorer**: A capability to browse the host file system.
+### B. La Interfaz Web (Frontend)
+Ubicada en `/web-interface`, construida con React + Vite + Tailwind.
+- **Dashboard (`App.jsx`)**: Un panel de control "God Mode" que muestra:
+  - **Estadísticas Profundas**: CPU, RAM (con barras de uso), GPU e información del SO en tiempo real.
+  - **Marketplace de Scripts**: Lista de scripts de automatización disponibles con indicadores de estado.
+  - **Terminal**: Logs en tiempo real transmitidos desde el agente vía WebSockets.
+  - **Explorador de Archivos**: Capacidad para navegar el sistema de archivos del host.
 
-### C. The Script Layer
-Located in `/scripts`.
-- Acts as the "muscle" of the system.
-- Each script (e.g., `nodejs`, `python`) is a self-contained module, often with its own `install.bat` or `install.ps1`.
-- The Agent scans this directory dynamically to populate the "Marketplace".
+### C. La Capa de Scripts
+Ubicada en `/scripts`.
+- Actúa como el "músculo" del sistema.
+- Cada script (ej. `nodejs`, `python`) es un módulo autocontenido, a menudo con su propio `install.bat` o `install.ps1`.
+- El Agente escanea este directorio dinámicamente para poblar el "Marketplace".
 
-## 4. Key Data Flows
+## 4. Flujos de Datos Clave
 
-### Installation Flow
-1. **User Request**: User clicks "Install" on the Web UI.
-2. **API Call**: Frontend sends `POST /execute` with `scriptId`.
-3. **Smart Resolution**: `SmartInstaller` checks `universal_manifest.json`.
-   - If a package manager source is found (e.g., Winget id), it constructs the specific command.
-   - If not, it falls back to the legacy `install.bat` in the `/scripts` folder.
-4. **Execution**: The Agent spawns a detached `cmd.exe` process (visual feedback for user) or runs silently depending on configuration.
-5. **Feedback**: Logs are streamed via Socket.IO back to the web terminal.
+### Flujo de Instalación
+1. **Solicitud de Usuario**: El usuario hace clic en "Instalar" en la UI Web.
+2. **Llamada API**: El frontend envía `POST /execute` con `scriptId`.
+3. **Resolución Inteligente**: `SmartInstaller` verifica `universal_manifest.json`.
+   - Si encuentra una fuente de gestor de paquetes (ej. id de Winget), construye el comando específico.
+   - Si no, recurre al script legado `install.bat` en la carpeta `/scripts`.
+4. **Ejecución**: El Agente lanza un proceso `cmd.exe` desconectado (feedback visual para el usuario) o corre silenciosamente según configuración.
+5. **Feedback**: Los logs se transmiten vía Socket.IO de vuelta a la terminal web.
 
-### Autopoiesis Flow (Self-Correction)
-1. **Startup**: `server.js` calls `smartInstaller.provisionPackageManagers()`.
-2. **Detection**: Checks presence of `winget`, `choco`, `scoop`.
-3. **Healing**: If (e.g.) `choco` is missing, it downloads and executes the Chocolatey install script automatically.
-4. **State Update**: Updates `tools_state.json` with the health status of each manager.
+### Flujo de Autopoiesis (Auto-Corrección)
+1. **Inicio**: `server.js` llama a `smartInstaller.provisionPackageManagers()`.
+2. **Detección**: Verifica la presencia de `winget`, `choco`, `scoop`.
+3. **Curación**: Si (por ejemplo) falta `choco`, descarga y ejecuta el script de instalación de Chocolatey automáticamente.
+4. **Actualización de Estado**: Actualiza `tools_state.json` con el estado de salud de cada gestor.
 
-## 5. Directory Structure
+## 5. Estructura de Directorios
 ```
 root
-├── agent/                  # Node.js Backend
-│   ├── server.js           # Entry point
-│   ├── smartInstaller.js   # Logic engine
-│   ├── universal_manifest.json # Package database
+├── agent/                  # Backend Node.js
+│   ├── server.js           # Punto de entrada
+│   ├── smartInstaller.js   # Motor lógico
+│   ├── universal_manifest.json # Base de datos de paquetes
 │   └── ...
-├── web-interface/          # React Frontend
+├── web-interface/          # Frontend React
 │   ├── src/
-│   │   ├── App.jsx         # Main Dashboard
+│   │   ├── App.jsx         # Dashboard Principal
 │   │   └── ...
 │   └── ...
-├── scripts/                # Legacy/Custom Scripts
+├── scripts/                # Scripts Legados/Custom
 │   ├── nodejs/
 │   ├── python/
 │   └── ...
-├── stacks/                 # Environment Definitions
+├── stacks/                 # Definiciones de Entorno
 │   ├── full-stack.ai-stack
 │   └── ...
-└── 0. Portables/           # Portable tools cache
+└── 0. Portables/           # Caché de herramientas portátiles
 ```
 
-## 6. Detailed Capabilities
-- **God Mode Filesystem**: The API (`/fs/list`, `/fs/read`) allows the frontend to theoretically traverse and edit the entire host filesystem (dangerous but powerful).
-- **Deep Profiling**: `profiler.js` uses WMI/OS commands to fetch hardware serials, extensive memory stats, and virtualization support.
-- **Stack Hydration**: Can turn a single JSON file into a fully configured machine (installing 10+ apps and extensions in one go).
+## 6. Capacidades Detalladas
+- **Sistema de Archivos God Mode**: La API (`/fs/list`, `/fs/read`) permite al frontend atravesar y editar teóricamente todo el sistema de archivos del host (peligroso pero poderoso).
+- **Perfilado Profundo**: `profiler.js` usa comandos WMI/SO para obtener seriales de hardware, estadísticas extensas de memoria y soporte de virtualización.
+- **Hidratación de Stacks**: Puede convertir un solo archivo JSON en una máquina completamente configurada (instalando 10+ aplicaciones y extensiones de una sola vez).
 
-## 7. Recommendations for Future Work
-- **Security**: The `/execute` and `/fs/*` endpoints are unauthenticated. Adding an API Key or Token auth is critical for production.
-- **Queue System**: Currently, installations might overlap. A job queue would prevent conflicts.
-- **Headless Mode**: Decouple the "detached window" logic to allow fully background installations.
+## 7. Recomendaciones Futuras
+- **Seguridad**: Los endpoints `/execute` y `/fs/*` no están autenticados. Añadir API Key o Token auth es crítico para producción.
+- **Sistema de Colas**: Actualmente, las instalaciones podrían solaparse. Una cola de trabajos evitaría conflictos.
+- **Modo Headless**: Desacoplar la lógica de "ventana desconectada" para permitir instalaciones totalmente en segundo plano.

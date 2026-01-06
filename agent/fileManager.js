@@ -5,6 +5,8 @@ const logger = require('./logger');
 const FileManager = {
     /**
      * Lista el contenido de un directorio
+     * [SECURITY NOTE] God Mode Access: This module intentionally allows access to the entire 
+     * filesystem as required by the "God Mode" system administration capability.
      */
     listFiles: async (dirPath) => {
         try {

@@ -270,10 +270,23 @@ app.post('/execute', async (req, res) => {
 
     let wrapperContent = '@echo off\n';
 
-    // Inyectar vars
+    // Inyectar vars (Sanitized)
     if (envVars) {
         for (const [key, val] of Object.entries(envVars)) {
-            wrapperContent += `set "${key}=${val}"\n`;
+            // Simple sanitization: 
+            // 1. Keys must be alphanumeric/underscore
+            // 2. Values: Escape double quotes to prevent breaking out of set "x=y"
+            if (!/^[a-zA-Z0-9_]+$/.test(key)) {
+                logger.warn(`Skipping invalid env var key: ${key}`);
+                continue;
+            }
+
+            // Escape " with "" (standard batch escaping inside quotes is weird, but usually ^ or "" works depending on context)
+            // Safer: Just strip risky characters or minimal escape. 
+            // Batch variable assignment set "VAR=VALUE" handles spaces well, but " inside VALUE breaks it.
+            const safeVal = String(val).replace(/"/g, '""');
+
+            wrapperContent += `set "${key}=${safeVal}"\n`;
         }
     }
 

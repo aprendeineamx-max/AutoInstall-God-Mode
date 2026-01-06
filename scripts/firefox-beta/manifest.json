@@ -9,6 +9,20 @@
     "install": {
         "command": "install.bat"
     },
+    "installOptions": [
+        {
+            "label": "Mozilla Official",
+            "source": "official",
+            "icon": "globe",
+            "command": "install_official.bat"
+        },
+        {
+            "label": "Microsoft Store / Winget",
+            "source": "winget",
+            "icon": "box",
+            "command": "install_winget.bat"
+        }
+    ],
     "uninstall": {
         "command": "winget uninstall Mozilla.Firefox.Beta"
     },

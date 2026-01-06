@@ -9,6 +9,20 @@
     "install": {
         "command": "install.bat"
     },
+    "installOptions": [
+        {
+            "label": "GitHub Release (Fast)",
+            "source": "github",
+            "icon": "github",
+            "command": "install_github.bat"
+        },
+        {
+            "label": "Official Site (Latest)",
+            "source": "official",
+            "icon": "globe",
+            "command": "install_official.bat"
+        }
+    ],
     "uninstall": {
         "command": "winget uninstall Proton.VPN"
     },

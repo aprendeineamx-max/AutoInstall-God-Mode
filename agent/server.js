@@ -283,14 +283,27 @@ app.post('/uninstall', (req, res) => {
 
 // 2. Ejecutar Script (Smart Install)
 app.post('/execute', async (req, res) => {
-    const { scriptId, envVars } = req.body;
+    const { scriptId, envVars, command } = req.body;
 
     // Resolve script path (bat or ps1)
     const modPath = path.join(SCRIPTS_DIR, scriptId);
-    let scriptPathAbs = path.join(modPath, 'install.bat');
-    let extension = '.bat';
+    let scriptFile = 'install.bat';
 
-    if (!fs.existsSync(scriptPathAbs)) {
+    // Allow custom command (e.g., "install_github.bat") if provided and safe
+    if (command && typeof command === 'string') {
+        const safeCommand = path.basename(command); // Prevent directory traversal
+        if (safeCommand === command && /^[a-zA-Z0-9_.-]+$/.test(command)) {
+            scriptFile = command;
+        } else {
+            return res.status(400).json({ error: "Invalid command filename" });
+        }
+    }
+
+    let scriptPathAbs = path.join(modPath, scriptFile);
+    let extension = path.extname(scriptFile).toLowerCase() || '.bat';
+
+    if (!fs.existsSync(scriptPathAbs) && !command) {
+        // Fallback for default install only
         scriptPathAbs = path.join(modPath, 'install.ps1');
         extension = '.ps1';
     }

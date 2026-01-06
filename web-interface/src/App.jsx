@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { Terminal, Settings, RefreshCw, Box, Play, AlertTriangle, Monitor, FolderOpen, Trash2, RotateCcw } from 'lucide-react'
+import { Terminal, Settings, RefreshCw, Box, Play, AlertTriangle, Monitor, FolderOpen, Trash2, RotateCcw, Globe, Github, ChevronDown } from 'lucide-react'
 import { io } from 'socket.io-client';
 import FileExplorer from './components/FileExplorer';
 import StacksMarketplace from './components/StacksMarketplace';
@@ -18,6 +18,7 @@ function App() {
     const [logs, setLogs] = useState([]);
     const logsEndRef = useRef(null);
     const [capabilities, setCapabilities] = useState(null);
+    const [openMenuId, setOpenMenuId] = useState(null); // Track open dropdowns
 
     useEffect(() => {
         checkStatus();
@@ -37,7 +38,14 @@ function App() {
             setLogs(prev => [...prev.slice(-99), log]); // Keep last 100 logs
         });
 
-        return () => socket.disconnect();
+        // Close menus on click outside
+        const handleClickOutside = () => setOpenMenuId(null);
+        document.addEventListener('click', handleClickOutside);
+
+        return () => {
+            socket.disconnect();
+            document.removeEventListener('click', handleClickOutside);
+        };
     }, []);
 
     // Auto-scroll logs
@@ -83,7 +91,8 @@ function App() {
         }
     };
 
-    const handleInstall = async (scriptId) => {
+    const handleInstall = async (scriptId, command = null, e = null) => {
+        if (e) e.stopPropagation(); // Prevent menu close from immediately triggering other things if needed
         if (!status) return alert("Agent is offline!");
 
         setInstalling(scriptId);
@@ -98,7 +107,7 @@ function App() {
                     'Content-Type': 'application/json',
                     'x-agent-key': AGENT_KEY
                 },
-                body: JSON.stringify({ scriptId, envVars })
+                body: JSON.stringify({ scriptId, envVars, command }) // Send optional command
             });
             await res.json();
             // Refresh logic after a delay
@@ -107,6 +116,7 @@ function App() {
             alert("Error starting installation");
         } finally {
             setInstalling(null);
+            setOpenMenuId(null);
         }
     };
 
@@ -303,25 +313,71 @@ function App() {
                                     </button>
                                 </>
                             ) : (
-                                <button
-                                    onClick={() => handleInstall(script.id)}
-                                    disabled={!status?.online || installing === script.id || !script.hasInstaller}
-                                    className={`flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-lg font-medium transition-all
-                                    ${!script.hasInstaller ? 'bg-slate-800 text-slate-500 cursor-not-allowed' :
-                                            installing === script.id ? 'bg-yellow-600 text-white cursor-wait' :
-                                                'bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-500/20'}
-                                `}
-                                >
-                                    {installing === script.id ? (
+                                <div className="flex-1 flex touch-none isolate relative rounded-lg shadow-lg shadow-blue-500/20">
+                                    {/* Main Button */}
+                                    <button
+                                        onClick={() => handleInstall(script.id)}
+                                        disabled={!status?.online || installing === script.id || !script.hasInstaller}
+                                        className={`flex-1 flex items-center justify-center gap-2 px-4 py-2 font-medium transition-all
+                                        ${script.manifest?.installOptions ? 'rounded-l-lg' : 'rounded-lg'}
+                                        ${!script.hasInstaller ? 'bg-slate-800 text-slate-500 cursor-not-allowed' :
+                                                installing === script.id ? 'bg-yellow-600 text-white cursor-wait' :
+                                                    'bg-blue-600 hover:bg-blue-500 text-white'}
+                                    `}
+                                    >
+                                        {installing === script.id ? (
+                                            <>
+                                                <RefreshCw className="w-4 h-4 animate-spin" /> Installing...
+                                            </>
+                                        ) : (
+                                            <>
+                                                <Play className="w-4 h-4" /> Install
+                                            </>
+                                        )}
+                                    </button>
+
+                                    {/* Split Dropdown Trigger */}
+                                    {script.manifest?.installOptions && (
                                         <>
-                                            <RefreshCw className="w-4 h-4 animate-spin" /> Installing...
-                                        </>
-                                    ) : (
-                                        <>
-                                            <Play className="w-4 h-4" /> Install
+                                            <button
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setOpenMenuId(openMenuId === script.id ? null : script.id);
+                                                }}
+                                                disabled={installing === script.id}
+                                                className={`px-2 py-2 border-l border-blue-700 bg-blue-600 hover:bg-blue-500 text-white rounded-r-lg transition-colors
+                                                 ${installing === script.id ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                            >
+                                                <ChevronDown className="w-4 h-4" />
+                                            </button>
+
+                                            {/* Dropdown Menu */}
+                                            {openMenuId === script.id && (
+                                                <div className="absolute top-12 right-0 w-56 bg-slate-800 border border-slate-700 rounded-xl shadow-2xl z-50 overflow-hidden animate-in fade-in slide-in-from-top-2">
+                                                    <div className="p-1">
+                                                        {script.manifest.installOptions.map((opt, idx) => (
+                                                            <button
+                                                                key={idx}
+                                                                onClick={(e) => handleInstall(script.id, opt.command, e)}
+                                                                className="w-full text-left flex items-center gap-3 px-3 py-2.5 text-sm text-slate-300 hover:bg-slate-700/50 hover:text-white rounded-lg transition-colors"
+                                                            >
+                                                                {opt.icon === 'github' ? <Github className="w-4 h-4 text-purple-400" /> :
+                                                                    opt.icon === 'globe' ? <Globe className="w-4 h-4 text-blue-400" /> :
+                                                                        opt.icon === 'box' ? <Box className="w-4 h-4 text-cyan-400" /> :
+                                                                            opt.icon === 'microsoft' ? <Box className="w-4 h-4 text-cyan-400" /> :
+                                                                                <Play className="w-4 h-4 text-slate-400" />}
+                                                                <div className="flex flex-col">
+                                                                    <span>{opt.label}</span>
+                                                                    <span className="text-[10px] text-slate-500 capitalize">{opt.source}</span>
+                                                                </div>
+                                                            </button>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            )}
                                         </>
                                     )}
-                                </button>
+                                </div>
                             )}
 
                             {/* Reinstall Option (Small) if installed */}

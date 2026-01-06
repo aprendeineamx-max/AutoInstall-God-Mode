@@ -278,7 +278,7 @@ function App() {
 
                 {/* Script Cards */}
                 {scripts.map((script) => (
-                    <div key={script.id} className={`group relative bg-slate-900 border border-slate-800 rounded-2xl p-6 transition-all hover:shadow-2xl overflow-hidden
+                    <div key={script.id} className={`group relative bg-slate-900 border border-slate-800 rounded-2xl p-6 transition-all hover:shadow-2xl
                         ${script.status === 'installed' ? 'hover:border-green-500/50 hover:shadow-green-900/10' : 'hover:border-blue-500/50 hover:shadow-blue-900/10'}
                     `}>
                         <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-100 transition-opacity">
